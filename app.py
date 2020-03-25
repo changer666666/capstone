@@ -48,7 +48,7 @@ WIDTH = 600
 HEIGHT = 300
 
 
-@app.route("/data/waterfall")
+@app.route("/capstone/data/waterfall")
 def data_waterfall():
     chart = Chart(sample_data.df_water).mark_bar(color='gray').encode(
         X('Name', axis=Axis(title='Sample')),
@@ -56,7 +56,7 @@ def data_waterfall():
     return chart.to_json()
 
 
-@app.route("/data/line")
+@app.route("/capstone/data/line")
 def data_line():
     chart = Chart(
         data=sample_data.df_list, height=HEIGHT,
@@ -66,7 +66,7 @@ def data_line():
     return chart.to_json()
 
 
-@app.route("/data/multiline")
+@app.route("/capstone/data/multiline")
 def data_multiline():
     chart = Chart(
         data=sample_data.df_stocks, height=HEIGHT,
@@ -78,7 +78,7 @@ def data_multiline():
     return chart.to_json()
 
 
-@app.route("/data/stocks")
+@app.route("/capstone/data/stocks")
 def stocks():
     chart = Chart(
         data=sample_data.df_stocks, height=HEIGHT,
@@ -90,7 +90,7 @@ def stocks():
     return chart.to_json()
 
 
-@app.route("/data/scatter")
+@app.route("/capstone/data/scatter")
 def scatter():
     chart = Chart(
         sample_data.df_0, height=HEIGHT, width=WIDTH).mark_circle().encode(
@@ -98,7 +98,7 @@ def scatter():
     return chart.to_json()
 
 
-@app.route("/data/bar")
+@app.route("/capstone/data/bar")
 def data_bar():
     chart = Chart(
         data=sample_data.df_list, height=HEIGHT,
@@ -109,7 +109,7 @@ def data_bar():
 
 
 # Creates graph for cars
-@app.route("/data/cars")
+@app.route("/capstone/data/cars")
 def cars_demo():
 
     chart = Chart(
@@ -122,7 +122,7 @@ def cars_demo():
 
 
 # Creates graph for IOWA electricity consumption
-@app.route("/data/electricity")
+@app.route("/capstone/data/electricity")
 def electricity_demo():
 
     chart = Chart(
@@ -132,7 +132,7 @@ def electricity_demo():
 
 
 # Creates graph for IOWA electricity consumption
-@app.route("/data/barley_yield")
+@app.route("/capstone/data/barley_yield")
 def barley_yield_demo():
 
     chart = Chart(

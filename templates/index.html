@@ -23,22 +23,12 @@
 		<!-- Vega Tooltip
 		<script src="https://vega.github.io/vega-tooltip/vega-tooltip.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="https://vega.github.io/vega-tooltip/vega-tooltip.css">-->
-		<!-- Import Vega 3 & Vega-Lite 2 (does not have to be from CDN) -->
+		<!-- Import Vega 3 & Vega-Lite 2-->
 		<link rel="stlesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/vega-tooltip@0.16.0/vega-tooltip.scss">
-
 
 		<script src="https://cdn.jsdelivr.net/npm/vega-tooltip@0.16.0/build/vega-tooltip.min.js"></script>
 
 		<style>hr, h3 {padding-bottom: 20px;}canvas {background-color: #fffff;}</style>
-		
-		<style>
-			div.waterfall {
-				width: 1200px;
-				height: 300px;
-				overflow-x: auto;
-				overflow-y: auto;
-			}
-		</style>
 	
 		<style>
 			#father{
@@ -122,14 +112,9 @@
 		
 		<!--4.Altair Part-->
 		<div class="charts text-center">
-			<div class="row"><div id="bar"></div></div><hr>
-			<div class="waterfall" id="waterfall"></div><hr>
-			<div class="row"><div id="line"></div></div><hr>
-			<div class="row"><div id="multiline"></div></div><hr>
-			<div class="row"><div id="stocks"></div></div><hr>
-			<div class="row"><div id="scatter"></div></div><hr>
+            <div class="row"><div id="supplyV"></div></div><hr>
 
-			<!-- Placeholder for the tooltip -->
+            <!-- Placeholder for the tooltip -->
 			<div id="vis-tooltip" class="vg-tooltip"></div>
 		</div>		
 		
@@ -154,7 +139,7 @@
         var opt = {
           mode: "vega-lite",
           renderer: "svg",
-          actions: {export: true, source: false, editor: false}
+          actions: {export: true, source: true, editor: false}
         };
 
         vegaEmbed("#"+div, url, opt, function(error, result) {
@@ -163,12 +148,7 @@
         });
       }
 
-      parse("/data/bar", "bar")
-      parse("/data/waterfall", "waterfall")
-      parse("/data/line", "line");
-      parse("/data/multiline", "multiline");
-      parse("/data/stocks", "stocks");
-      parse("/data/scatter", "scatter");
+      parse("/data/supplyV", "supplyV")
    
     </script>
 

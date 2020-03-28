@@ -24,19 +24,6 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-
-# render cars.html page
-@app.route("/cars")
-def show_cars():
-    return render_template("cars.html")
-
-
-# render iowa electricity.html
-@app.route("/electricity")
-def show_electricity():
-    return render_template("electricity.html")
-
-
 # render supplyVoltage.html
 @app.route("/supplyV")
 def show_supplyV():
@@ -46,12 +33,9 @@ def show_supplyV():
 ### Altair Data Routes
 #########################
 
-WIDTH = 600
-HEIGHT = 300
-
 @app.route("/data/supplyV")
 def supplyV_demo():
-    chart = alt.Chart(supplyV).mark_line(point=True, height=700, width=700).encode(
+    chart = alt.Chart(supplyV, width=600, height=300).mark_line(point=True).encode(
                 x='date:T',
                 y='supplyVoltage:Q'
             ).interactive()

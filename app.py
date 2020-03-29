@@ -24,8 +24,8 @@ app = Flask(__name__)
 def index():
     if request.method == "POST":
         print(request.form.get('testRunSelect'))
-		#This file name is Test_X_Run_X
-		filename = request.form.get('testRunSelect')
+        #This file name is Test_X_Run_X
+        filename = request.form.get('testRunSelect')
     return render_template('index.html')
 
 # render supplyVoltage.html

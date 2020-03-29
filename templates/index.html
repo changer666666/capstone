@@ -140,6 +140,14 @@
 			#bottom{
 				text-align: center;
 			}
+			#button{
+				background:url(static/img/blast_off.png) no-repeat;
+				width:200px;
+				height:90px;
+				border:0px;
+				cursor:pointer;
+				background-size: 100%;
+			}
 
 		</style>
   </head>
@@ -158,7 +166,7 @@
 					<img src="{{ url_for('static', filename= './img/title_logo_new.png',_t=val1) }}" width = "700px" height="100px" />
 				</div>
 				<div id="uw">
-					<!--<img src="./capstone/static/img/u-of-washington.png" width = "100px" height="42px" />-->
+					<!--<img src="./capstone/static/img/u-of-uw_logo_new.png" width = "100px" height="42px" />-->
 					<img src="{{ url_for('static', filename= './img/uw_logo_new.png',_t=val1) }}" width = "200px" height="100px" />
 				</div>
 			</div>
@@ -166,58 +174,59 @@
 			<!--3.menu and table-->
 			<div id="underpart">
 				<div id="underpartcontent">
-					<!--menu-->
+					<!--Left menu-->
 					<div id="leftmenu">
-
-						<div class="menutag" id="dataset">
-							<p><font color="#C4C7D1" size="6" face="Arial"> DATASET </font></p>
-							<div class="select1">
-								<select>
-									<option value ="MOSFET_Data">MOSFET_Data</option>
-								</select>
+						
+						<form action="/" method="post">						
+							<div class="menutag" id="dataset">
+								<p><font color="#C4C7D1" size="6" face="Arial"> DATASET </font></p>
+								<div class="select1">
+									<select name = "datasetSelect" id="datasetSelect">
+										<option value ="MOSFET_Data">MOSFET_Data</option>
+									</select>
+								</div>
 							</div>
-						</div>
 
-						<div class="menutag" id="testRun">
-							<p><font color="#C4C7D1" size="6" face="Arial"> TEST & RUN </font></p>
-							<div class="select1">
-								<select>
-									<option value ="Run_1_Test_1">Run_1_Test_1</option>
-									<option value ="Run_1_Test_1">Run_2_Test_1</option>
-									<option value ="Run_1_Test_1">Run_3_Test_1</option>
-									<option value ="Run_1_Test_1">Run_4_Test_1</option>
-									<option value ="Run_1_Test_1">Run_5_Test_1</option>
-									<option value ="Run_1_Test_1">Run_6_Test_1</option>
-									<option value ="Run_1_Test_1">Run_7_Test_1</option>
-									<option value ="Run_1_Test_1">Run_8_Test_1</option>
-									<option value ="Run_1_Test_1">Run_9_Test_1</option>
-									<option value ="Run_1_Test_1">Run_10_Test_1</option>
-								</select>
+							<div class="menutag" id="testRun">
+								<p><font color="#C4C7D1" size="6" face="Arial"> TEST & RUN </font></p>
+								<div class="select1">
+									<select name="testRunSelect" id="testRunSelect">
+										<option value =" ">Choose File..</option>
+										<option value ="Test_1_Run_1">Test_1_Run_1</option>
+										<option value ="Test_2_Run_1">Test_2_Run_1</option>
+										<option value ="Test_3_Run_1">Test_3_Run_1</option>
+										<option value ="Test_4_Run_1">Test_4_Run_1</option>
+										<option value ="Test_5_Run_1">Test_5_Run_1</option>
+										<option value ="Test_6_Run_1">Test_6_Run_1</option>
+										<option value ="Test_7_Run_1">Test_7_Run_1</option>
+										<option value ="Test_8_Run_1">Test_8_Run_1</option>
+										<option value ="Test_9_Run_1">Test_9_Run_1</option>
+										<option value ="Test_10_Run_1">Test_10_Run_1</option>
+									</select>
+								</div>
 							</div>
-						</div>
 
-						<div class="menutag" id="parameters">
-							<p><font color="#C4C7D1" size="6" face="Arial"> PARAMETERS </font></p>
-							<div class="select1">
-								<select>
-									<option value ="...">Drain-Source Resistance & Time</option>
-								</select>
+							<div class="menutag" id="parameters">
+								<p><font color="#C4C7D1" size="6" face="Arial"> PARAMETERS </font></p>
+								<div class="select1">
+									<select name="parametersSelect" id="parametersSelect">
+										<option value ="Drain_Source_Resistance_Time">Drain_Source_Resistance_Time</option>
+									</select>
+								</div>
 							</div>
-						</div>
+							
+							<div id="blastoff">
+								<input type="submit" name="button" id="button" value="" />
+								</input>
+							</div>
 
-						<div id="blastoff">
-							<!--<img src="./capstone/static/img/u-of-washington.png" width = "100px" height="42px" />-->
-							<img src="{{ url_for('static', filename= './img/blast_off.png',_t=val1) }}" width = "200px" height="70px"/>
-						</div>
-
-
-						<div id="rocket">
-							<!--<img src="./capstone/static/img/u-of-washington.png" width = "100px" height="42px" />-->
-							<img src="{{ url_for('static', filename= './img/rocket.png',_t=val1) }}" width = "50px" height="90px"/>
-						</div>
+							<div id="rocket">
+								<img src="{{ url_for('static', filename= './img/rocket.png',_t=val1) }}" width = "50px" height="90px"/>
+							</div>
+						</form>
 					</div>
-
-					<!--table-->
+					
+					<!--Right table-->
 					<div id="righttable">
 						<!--4.Altair Part-->
 						<div class="charts text-center">
@@ -229,8 +238,6 @@
 					</div>
 				</div>
 			</div>
-
-
 
 			<!--5.友情链接和版权信息-->
 			<div id="bottom">

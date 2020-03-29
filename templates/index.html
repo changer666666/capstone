@@ -28,110 +28,223 @@
 
 		<script src="https://cdn.jsdelivr.net/npm/vega-tooltip@0.16.0/build/vega-tooltip.min.js"></script>
 
-		<style>hr, h3 {padding-bottom: 20px;}canvas {background-color: #fffff;}</style>
-	
 		<style>
+			#background{
+				background-color: #000000;
+			}
 			#father{
-				border: 0px solid red;
 				width: 1300px;
+				height: 828px;
 				margin: auto;
+				background-color: #181820;
+			}
+			#logo{
+				width: 1300px;
+				height: 150px;
+				background-color: #202028;
+				text-align: center;
 			}
 			.top{
-				border: 0px solid blue;
-				width: 431px;
-				height: 50px;
 				float: left;
 				text-align: center;
 			}
-			#top{
-				padding-top: 12px;
-				height: 38px;
-			}
-			#name{
+			#lm{
+				width: 280px;
+				height: 100px;
+				float: left;
 				text-align: center;
 			}
-			#menu{
+			#title{
+				width: 750px;
+				height: 100px;
+				float: left;
+				text-align: center;
+			}
+			#uw{
+				width: 230px;
+				height: 100px;
+				float: left;
+				text-align: center;
+			}
+			#underpart{
 				width: 1280px;
-				height: 50px;
-				background-color: black;
-				padding:0.2em 0.6em;
+				height: 600px;
+				padding: 25px;
 			}
-			ul li{
-				display: inline;
-				color: white;
+			#underpartcontent{
+				width: 1240px;
+				height: 580px;
+				margin: auto;
+				background-color: #181820;
 			}
-			#advertise{
-				width: 1300px;
-				height: 1000px;
+			#leftmenu{
+				width: 300px;
+				height: 550px;
+				float: left;
+				background-color: #202028;
+				text-align: center;
+				border-width: 10px;
+				padding: 10px;
+			}
+			.menutag{
+				width: 250px;
+				background-color: #31313D;
+				border-width: 10px;
+				margin-left: 10px;
+				margin-right: 10px;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				
+				padding-top: 10px;
+				padding-right: 10px;
+				padding-bottom: 10px;
+				padding-left: 10px;
+			}
+			.select1 {
+				background: rgba(75,0,130,0.8);/*背景色和透明度，可以设置为url地址的图片*/
+				width: 193px;/*宽度*/
+				height: 40px;/*高度*/
+				margin-top: 5px;/*上边距*/
+				margin-left: 10px;
+				font-size: 25px;
+				border-radius: 10px;
+				overflow: hidden;
+			}
+			.select1 select{
+				background: transparent;/*透明*/
+				border: none;
+				padding-left: 10px;
+				width: 205px;/*比上面设置的略宽*/
+				height: 100%;
+				border-radius: 10px;
+				color: black;
+				font-family: "Arial";
+			}
+			#blastoff{
+				margin-top: 20px;
+				float: left;
+			}
+			#rocket{
+				margin-top: 20px;
+				float: right;
+			}
+			#righttable{
+				width: 920px;
+				height: 550px;
+				float: right;
+				background-color: #202028;
+				text-align: center;
+				border-width: 10px;
+				padding: 10px;
 			}
 			#bottom{
 				text-align: center;
 			}
-			a{
-				text-decoration: none;
-			}
+			
 		</style>
   </head>
   <body>
-    
-	<div id="father">
-		<!--1.logo部分-->
-		<div id="logo">
-			<h5>&nbsp;</h5>
-			<div class="top">
-				<!--<img src="./capstone/static/img/LM-logo.png" height="46px"/>-->
-				<img src="{{ url_for('static', filename= './img/LM-logo.png',_t=val1) }}" height="46px"/>
+    <div id="background">
+		<div id="father">
+			<!--1.logo部分-->
+			<div id="logo">
+				<h5>&nbsp;</h5>
+				<div id="lm">
+					<!--<img src="./capstone/static/img/LM-logo.png" height="46px"/>-->
+					<img src="{{ url_for('static', filename= './img/lm_logo_new.png',_t=val1) }}" width = "250px" height="70px"/>
+				</div>
+				<div id="title">
+					<!--<img src="./capstone/static/img/u-of-washington.png" width = "100px" height="42px" />-->
+					<img src="{{ url_for('static', filename= './img/title_logo_new.png',_t=val1) }}" width = "700px" height="100px" />
+				</div>
+				<div id="uw">
+					<!--<img src="./capstone/static/img/u-of-washington.png" width = "100px" height="42px" />-->
+					<img src="{{ url_for('static', filename= './img/uw_logo_new.png',_t=val1) }}" width = "200px" height="100px" />
+				</div>
 			</div>
-			<div class="top">
-				<!--<img src="./capstone/static/img/u-of-washington.png" width = "100px" height="42px" />-->
-				<img src="{{ url_for('static', filename= './img/u-of-washington.png',_t=val1) }}" width = "100px" height="42px" />
-			</div>
-			<div class="top" id="top">
-				<a href="#">&nbsp;&nbsp;Login&nbsp;&nbsp;</a>
-				<a href="#">&nbsp;&nbsp;Register&nbsp;&nbsp;</a>
-				<a href="#">&nbsp;&nbsp;Search&nbsp;&nbsp;</a>
-			</div>
-		</div>
-		
-		<!--2.name-->
-		<div id="name">
-			<!--<h1>Predictive data analysis for complex system-of-system</h1>-->
-			<img src="{{ url_for('static', filename= './img/total_title.png',_t=val1) }}" />
-		</div>
-		
-		
-		<!--3.导航栏部分-->
-		<div id="menu">
-			<ul>
-				<a href="#"><li style="font-size: 23px;">Home</li></a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="#"><li>DataType 1</li></a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="#"><li>DataType 2</li></a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="#"><li>DataType 3</li></a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="#"><li>DataType 4</li></a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="#"><li>DataType 5</li></a>
-			</ul>
-		</div>
-		
-		<!--4.Altair Part-->
-		<div class="charts text-center">
-            <div class="row"><div id="supplyV"></div></div><hr>
+			
+			<!--3.menu and table-->
+			<div id="underpart">
+				<div id="underpartcontent">
+					<!--menu-->
+					<div id="leftmenu">
+						
+						<div class="menutag" id="dataset">
+							<p><font color="#C4C7D1" size="6" face="Arial"> DATASET </font></p>
+							<div class="select1">
+								<select>
+									<option value ="MOSFET_Data">MOSFET_Data</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="menutag" id="testRun">
+							<p><font color="#C4C7D1" size="6" face="Arial"> TEST & RUN </font></p>
+							<div class="select1">
+								<select>
+									<option value ="Run_1_Test_1">Run_1_Test_1</option>
+									<option value ="Run_1_Test_1">Run_2_Test_1</option>
+									<option value ="Run_1_Test_1">Run_3_Test_1</option>
+									<option value ="Run_1_Test_1">Run_4_Test_1</option>
+									<option value ="Run_1_Test_1">Run_5_Test_1</option>
+									<option value ="Run_1_Test_1">Run_6_Test_1</option>
+									<option value ="Run_1_Test_1">Run_7_Test_1</option>
+									<option value ="Run_1_Test_1">Run_8_Test_1</option>
+									<option value ="Run_1_Test_1">Run_9_Test_1</option>
+									<option value ="Run_1_Test_1">Run_10_Test_1</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="menutag" id="parameters">
+							<p><font color="#C4C7D1" size="6" face="Arial"> PARAMETERS </font></p>
+							<div class="select1">
+								<select>
+									<option value ="...">Drain-Source Resistance & Time</option>
+								</select>
+							</div>
+						</div>
+						
+						<div id="blastoff">
+							<!--<img src="./capstone/static/img/u-of-washington.png" width = "100px" height="42px" />-->
+							<img src="{{ url_for('static', filename= './img/blast_off.png',_t=val1) }}" width = "200px" height="70px"/>
+						</div>
+						
+						
+						<div id="rocket">
+							<!--<img src="./capstone/static/img/u-of-washington.png" width = "100px" height="42px" />-->
+							<img src="{{ url_for('static', filename= './img/rocket.png',_t=val1) }}" width = "50px" height="90px"/>
+						</div>
+					</div>
+					
+					<!--table-->
+					<div id="righttable">
+						<!--4.Altair Part-->
+						<div class="charts text-center">
+							<div class="row"><div id="supplyV"></div></div><hr>
 
-            <!-- Placeholder for the tooltip -->
-			<div id="vis-tooltip" class="vg-tooltip"></div>
-		</div>		
-		
-		<!--5.友情链接和版权信息-->
-		<div id="bottom">
-			<a href="#">About&nbsp;&nbsp;&nbsp;&nbsp;</a>
-			<a href="#">Contact&nbsp;&nbsp;&nbsp;&nbsp;</a>
-			<a href="#">Recruit&nbsp;&nbsp;&nbsp;&nbsp;</a>
-			<a href="#">Privacy&nbsp;&nbsp;&nbsp;&nbsp;</a>
-			<a href="#">Links&nbsp;&nbsp;&nbsp;&nbsp;</a>
-			<a href="#">Announcement&nbsp;&nbsp;&nbsp;&nbsp;</a>
-			<a href="#">Advertisement&nbsp;&nbsp;&nbsp;&nbsp;</a>
-			<p>
-				Copyright © 2020 Lockheed Martin. University of Washington. All rights reserved.
-			</p>
+							<!-- Placeholder for the tooltip -->
+							<div id="vis-tooltip" class="vg-tooltip"></div>
+						</div>	
+					</div>
+				</div>
+			</div>
+			
+				
+			
+			<!--5.友情链接和版权信息-->
+			<div id="bottom">
+				<a href="#">&nbsp;&nbsp;About&nbsp;&nbsp;</a>
+				<a href="#">&nbsp;&nbsp;Contact&nbsp;&nbsp;</a>
+				<a href="#">&nbsp;&nbsp;Recruit&nbsp;&nbsp;</a>
+				<a href="#">&nbsp;&nbsp;Privacy&nbsp;&nbsp;</a>
+				<a href="#">&nbsp;&nbsp;Links&nbsp;&nbsp;</a>
+				<a href="#">&nbsp;&nbsp;Announcement&nbsp;&nbsp;</a>
+				<a href="#">&nbsp;&nbsp;Advertisement&nbsp;&nbsp;</a>
+				<p>
+					<font color="white">Copyright © 2020 Lockheed Martin. University of Washington. All rights reserved.</font>
+				</p>
+			</div>
 		</div>
 	</div>
 

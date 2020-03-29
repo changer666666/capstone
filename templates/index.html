@@ -180,9 +180,9 @@
 						
 						<div class="menutag" id="testRun">
 							<p><font color="#C4C7D1" size="6" face="Arial"> TEST & RUN </font></p>
-							<div class="select1">
+							<div class="select1" id="testandrun">
 								<select>
-									<option value ="Run_1_Test_1">Run_1_Test_1</option>
+									<option value ="Test_1_run_1">Test_1_run_1</option>
 									<option value ="Run_1_Test_1">Run_2_Test_1</option>
 									<option value ="Run_1_Test_1">Run_3_Test_1</option>
 									<option value ="Run_1_Test_1">Run_4_Test_1</option>
@@ -221,8 +221,10 @@
 					<div id="righttable">
 						<!--4.Altair Part-->
 						<div class="charts text-center">
-							<div class="row"><div id="supplyV"></div></div><hr>
-
+							<!--
+							<div class="row"><div id="supplyV"></div></div><hr> -->
+							<div class="row"><div id="onState"></div></div><hr>
+							<div class="row"><div id="rul"></div></div><hr>
 							<!-- Placeholder for the tooltip -->
 							<div id="vis-tooltip" class="vg-tooltip"></div>
 						</div>	
@@ -263,7 +265,8 @@
         });
       }
 
-      parse("/data/supplyV", "supplyV")
+	  parse("/data/onState", "onState")
+	  parse("/data/rul", "rul")
    
     </script>
 

@@ -6,7 +6,11 @@ import scipy.io as spio
 import numpy as np
 from pandas.io.json import json_normalize
 import pyarrow
+import calculate_data
 
+# imported data from calculate_data.py
+calculated_data = calculate_data.data_df
+rul_calculated_data = calculate_data.rul
 
 ##########################
 # raw data extraction
@@ -42,6 +46,17 @@ def show_electricity():
 def show_supplyV():
     return render_template("supplyV.html")
 
+# render onState.html
+@app.route("/onState")
+def show_onState():
+    return render_template("onState.html")
+
+# render rul.html
+@app.route("/rul")
+def show_rul():
+    return render_template("rul.html")
+
+
 #########################
 ### Altair Data Routes
 #########################
@@ -49,11 +64,19 @@ def show_supplyV():
 WIDTH = 600
 HEIGHT = 300
 
-@app.route("/data/supplyV")
-def supplyV_demo():
-    chart = alt.Chart(supplyV).mark_line(point=True, height=700, width=700).encode(
-                x='date:T',
-                y='supplyVoltage:Q'
+@app.route("/data/onState")
+def onState_demo():
+    chart = alt.Chart(calculated_data).mark_line(point=True, height=700, width=700).encode(
+                x='Time(Min)',
+                y='ONStateRES'
+            ).interactive()
+    return chart.to_json()
+
+@app.route("/data/rul")
+def rul_demo():
+    chart = alt.Chart(rul_calculated_data).mark_line(point=True, height=700, width=700).encode(
+                x='Time(Min)',
+                y='ONStateRES'
             ).interactive()
     return chart.to_json()
 

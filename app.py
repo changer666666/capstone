@@ -2,9 +2,7 @@ from flask import Flask, render_template, request
 import altair as alt
 import pandas as pd
 from vega_datasets import data
-import scipy.io as spio
 import numpy as np
-from pandas.io.json import json_normalize
 import pyarrow
 
 
@@ -38,7 +36,10 @@ def supplyV_demo():
     chart = alt.Chart(supplyV, width=600, height=300).mark_line(point=True).encode(
                 x='date:T',
                 y='supplyVoltage:Q'
-            ).interactive()
+    ).configure_axis(
+        labelColor='gray',
+        titleColor='gray'
+    ).interactive()
     return chart.to_json()
 
 if __name__ == "__main__":

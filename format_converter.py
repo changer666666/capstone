@@ -3,6 +3,9 @@ import numpy as np
 import pandas as pd
 from pandas.io.json import json_normalize
 import fastparquet
+import os.path
+import pyarrow
+
 
 def loadmat(filename):
     '''
@@ -51,8 +54,13 @@ def loadmat(filename):
             else:
                 elem_list.append(sub_elem)
         return elem_list
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    filename = os.path.join(my_path, 'mosfet_data', filename)
+    #print('file path:' + filename)
     data = spio.loadmat(filename, struct_as_record=False, squeeze_me=True)
     return _check_keys(data)
+
+#print(type(loadmat('Test_3_run_1.mat')))
 
 #---------------------------------------------------------------------------------------------------------------------#
 #load .mat file, use self created loadmat function instead of build-in library

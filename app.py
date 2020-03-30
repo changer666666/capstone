@@ -3,14 +3,13 @@ import altair as alt
 import pandas as pd
 from vega_datasets import data
 import numpy as np
-import pyarrow
-
+import calculate_data
+import fastparquet
 
 ##########################
 # raw data extraction
 ##########################
 supplyV = pd.read_parquet('MOSFET.parquet')
-
 
 app = Flask(__name__)
 
@@ -21,9 +20,11 @@ app = Flask(__name__)
 @app.route("/", methods=("GET", "POST"))
 def index():
     if request.method == "POST":
-        print(request.form.get('testRunSelect'))
         #This file name is Test_X_Run_X
         filename = request.form.get('testRunSelect')
+        print(filename)
+        onStateRes = calculate_data.calculate_data(filename)
+        print(type(onStateRes))
     return render_template('index.html')
 
 # render supplyVoltage.html
@@ -45,6 +46,7 @@ def supplyV_demo():
         titleColor='gray'
     ).interactive()
     return chart.to_json()
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,8 +1,7 @@
 from pip._vendor.distlib.compat import raw_input
 from format_converter import loadmat
 import pandas as pd
-from pandas.io.json import json_normalize
-import numpy as np
+
 
 def calculate_data(file):
     # load .mat file, use self created loadmat function instead of build-in library
@@ -87,3 +86,5 @@ def calculate_data(file):
     data_df = pd.DataFrame(data_2d, columns=['Time(Min)', 'ONStateRES'])
     return data_df
     #rul = pd.DataFrame(data_2d, columns=['Time(Min)', 'ONStateRES'])
+
+#print(type(calculate_data('Test_3_run_1')))

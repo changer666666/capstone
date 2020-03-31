@@ -86,5 +86,3 @@ def calculate_data(file):
     data_df = pd.DataFrame(data_2d, columns=['Time(Min)', 'ONStateRES'])
     return data_df
     #rul = pd.DataFrame(data_2d, columns=['Time(Min)', 'ONStateRES'])
-
-#print(type(calculate_data('Test_3_run_1')))

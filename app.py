@@ -1,17 +1,16 @@
 from flask import Flask, render_template, request
 import altair as alt
 import pandas as pd
-from vega_datasets import data
-import scipy.io as spio
-import numpy as np
-from pandas.io.json import json_normalize
 import pyarrow
-
+import os
 
 ##########################
 # raw data extraction
 ##########################
-supplyV = pd.read_parquet('MOSFET.parquet')
+
+myPath = os.path.dirname(__file__)
+filename = os.path.join(myPath, 'MOSFET.parquet')
+supplyV = pd.read_parquet(filename)
 
 
 app = Flask(__name__)

@@ -101,20 +101,20 @@
             padding-left: 10px;
         }
         .select1 {
-            background: rgba(75,0,130,0.8);/*背景色和透明度，可以设置为url地址的图片*/
-            width: 193px;/*宽度*/
-            height: 40px;/*高度*/
-            margin-top: 5px;/*上边距*/
+            background: rgba(75,0,130,0.8);/*Background and Opacity，can set image URL as background*/
+            width: 193px;/*width*/
+            height: 40px;/*Height*/
+            margin-top: 5px;/*Top Margin*/
             margin-left: 10px;
             font-size: 25px;
             border-radius: 10px;
             overflow: hidden;
         }
         .select1 select{
-            background: transparent;/*透明*/
+            background: transparent;/*Opacity*/
             border: none;
             padding-left: 10px;
-            width: 205px;/*比上面设置的略宽*/
+            width: 205px;
             height: 100%;
             border-radius: 10px;
             color: black;
@@ -140,7 +140,7 @@
             text-align: center;
         }
         #button{
-            background:url(static/img/blast_off.png) no-repeat;
+            background:url(static/HTMLimg/blast_off.png) no-repeat;
             width:200px;
             height:90px;
             border:0px;
@@ -153,20 +153,17 @@
 <body>
 <div id="background">
     <div id="father">
-        <!--1.logo部分-->
+        <!--1.Logo Part-->
         <div id="logo">
             <h5>&nbsp;</h5>
             <div id="lm">
-                <!--<img src="./capstone/static/img/LM-logo.png" height="46px"/>-->
-                <img src="{{ url_for('static', filename= './img/lm_logo_new.png',_t=val1) }}" width = "250px" height="70px"/>
+                <img src="{{ url_for('static', filename= './HTMLimg/lm_logo_new.png',_t=val1) }}" width = "250px" height="70px"/>
             </div>
             <div id="title">
-                <!--<img src="./capstone/static/img/u-of-washington.png" width = "100px" height="42px" />-->
-                <img src="{{ url_for('static', filename= './img/title_logo_new.png',_t=val1) }}" width = "700px" height="100px" />
+                <img src="{{ url_for('static', filename= './HTMLimg/title_logo_new.png',_t=val1) }}" width = "700px" height="100px" />
             </div>
             <div id="uw">
-                <!--<img src="./capstone/static/img/u-of-uw_logo_new.png" width = "100px" height="42px" />-->
-                <img src="{{ url_for('static', filename= './img/uw_logo_new.png',_t=val1) }}" width = "200px" height="100px" />
+                <img src="{{ url_for('static', filename= './HTMLimg/uw_logo_new.png',_t=val1) }}" width = "200px" height="100px" />
             </div>
         </div>
 
@@ -205,6 +202,15 @@
                             </div>
                         </div>
 
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                <script>
+                                    var messages = {{ messages | safe }}
+                                    alert(messages);
+                                </script>
+                            {% endif %}
+                        {% endwith %}
+
                         <div class="menutag" id="parameters">
                             <p><font color="#C4C7D1" size="6" face="Arial"> PARAMETERS </font></p>
                             <div class="select1">
@@ -219,8 +225,9 @@
                             </input>
                         </div>
 
+
                         <div id="rocket">
-                            <img src="{{ url_for('static', filename= './img/rocket.png',_t=val1) }}" width = "50px" height="90px"/>
+                            <img src="{{ url_for('static', filename= './HTMLimg/rocket.png',_t=val1) }}" width = "50px" height="90px"/>
                         </div>
                     </form>
                 </div>
@@ -240,15 +247,15 @@
             </div>
         </div>
     </div>
-    <!--5.友情链接和版权信息-->
+    <!--5.CopyRight-->
     <div id="bottom">
         <a href="#">&nbsp;&nbsp;About&nbsp;&nbsp;</a>
         <a href="#">&nbsp;&nbsp;Contact&nbsp;&nbsp;</a>
-        <a href="#">&nbsp;&nbsp;Recruit&nbsp;&nbsp;</a>
+{#        <a href="#">&nbsp;&nbsp;Recruit&nbsp;&nbsp;</a>#}
         <a href="#">&nbsp;&nbsp;Privacy&nbsp;&nbsp;</a>
         <a href="#">&nbsp;&nbsp;Links&nbsp;&nbsp;</a>
         <a href="#">&nbsp;&nbsp;Announcement&nbsp;&nbsp;</a>
-        <a href="#">&nbsp;&nbsp;Advertisement&nbsp;&nbsp;</a>
+{#        <a href="#">&nbsp;&nbsp;Advertisement&nbsp;&nbsp;</a>#}
         <p>
             <font color="white">Copyright © 2020 Lockheed Martin. University of Washington. All rights reserved.</font>
         </p>

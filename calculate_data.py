@@ -83,6 +83,6 @@ def calculate_data(file):
         data_2d[i][1] = cONstateRES[i]
         data_2d[i][0] = c_time[i]
 
-    data_df = pd.DataFrame(data_2d, columns=['Time(Min)', 'ONStateRES'])
+    data_df = pd.DataFrame(data_2d, columns=['Time', 'ONStateRES'])
     return data_df
     #rul = pd.DataFrame(data_2d, columns=['Time(Min)', 'ONStateRES'])

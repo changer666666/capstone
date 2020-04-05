@@ -16,8 +16,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-beta.14/vega-embed.js"></script>-->
 
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@3.0.0-rc12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
     <script src="https://vega.github.io/datalib/datalib.min.js"></script>
 
     <!-- Vega Tooltip
@@ -236,12 +236,13 @@
                 <div id="righttable">
                     <!--4.Altair Part-->
                     <div style="height: auto" class="charts text-center">
-                        <div class="row"><div id="supplyV"></div></div><hr>
-
-                        <img style="visibility: {{loaded}}" src="{{ url_for('static', filename=path, _t=val1) }}" width = "400px" height="200px" />
-
-                        <!-- Placeholder for the tooltip -->
-                        <div id="vis-tooltip" class="vg-tooltip"/>
+{#                        <div id="supplyVoltage"></div>#}
+                        <div id="supplyV"></div>
+                        <br>
+                        <br>
+{#                        <div id="onState"></div>#}
+                        <div id="onStateRes"></div>
+{#                        <img src="{{ url_for('static', filename=path, _t=val1) }}" width = "400px" height="200px" />#}
                     </div>
                 </div>
             </div>
@@ -264,30 +265,37 @@
 
 <!-- Render Charts -->
 <script type="text/javascript">
-    function parse(url, div) {
+    function parseLink(div, url) {
+        var opt = {
+            mode: "vega-lite",
+            renderer: "svg",
+            actions: {export: true, source: true, editor: false},
+        };
+
+        vegaEmbed('#'+div, url, opt);
+    }
+
+    function parseJson(div, jsonFile) {
         var opt = {
             mode: "vega-lite",
             renderer: "svg",
             actions: {export: true, source: true, editor: false}
         };
 
-        vegaEmbed("#"+div, url, opt, function(error, result) {
-            // result.view is the Vega View, url is the original Vega-Lite specification
-            vegaTooltip.vegaLite(result.view, url);
-        });
+        vegaEmbed('#' + div, jsonFile, opt);
     }
-
-    parse("/data/supplyV", "supplyV")
-    /*
-    function getJson(){
-        var jsonData = jsonData;
-        console.log(jsonData);
-        document.getElementById('testData').innerHTML = jsonData
-    }
-
-    getJson();
-     */
 </script>
+
+<script>
+    var resData = {{ jsonData | safe }};
+    if (resData){
+        {#document.getElementById(supplyVoltage).innerHTML = 'supplyVoltage:'#}
+        parseLink('supplyV', '/data/supplyV')
+        parseJson('onStateRes', resData)
+    }
+</script>
+
+
 
 </body>
 </html>

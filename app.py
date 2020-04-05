@@ -11,7 +11,8 @@ app.secret_key = 'testkey'
 # render index.html as home page
 @app.route("/", methods=("GET", "POST"))
 def index():
-    loaded = 'hidden'
+    isCalculated = False
+    jsonData = None
     if request.method == "POST":
         filename = request.form.get('testRunSelect')
 
@@ -20,9 +21,10 @@ def index():
             flash(error)
         else:
             onStateRes = calculate_data.calculate_data(filename)
-            chart = alt.Chart(onStateRes, width=600, height=300).mark_line(point=True).encode(
-                    x='Time(Min):T',
-                    y='ONStateRES:Q'
+            chart = alt.Chart(onStateRes, width=400, height=200).mark_line(point=True).encode(
+                    x='Time:T',
+                    y='ONStateRES:Q',
+                    tooltip=['Time', 'ONStateRES']
                 ).configure_axis(
                     labelColor='gray',
                     titleColor='gray'
@@ -32,12 +34,11 @@ def index():
 
             chart.save(absPath)
             print('Save PNG Successfully')
-            loaded = 'visible'
+            isCalculated = True
 
             return render_template('index.html', path = relativePath, jsonData = chart.to_json())
 
-
-    return render_template('index.html', loaded = loaded)
+    return render_template('index.html', isCalculated = isCalculated, jsonData= jsonData)
 
 ##################################################
 # Altair Data Routes
@@ -55,7 +56,8 @@ def show_supplyV():
 def supplyV_demo():
     chart = alt.Chart(supplyV, width=400, height=200).mark_line(point=True).encode(
         x='date:T',
-        y='supplyVoltage:Q'
+        y='supplyVoltage:Q',
+        tooltip=['date', 'supplyVoltage']
     ).configure_axis(
         labelColor='gray',
         titleColor='gray'

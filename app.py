@@ -3,42 +3,48 @@ import altair as alt
 import pandas as pd
 import calculate_data
 import os
+import json
 
 myPath = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 app.secret_key = 'testkey'
 
+def getChart(filename):
+    onStateRes = calculate_data.calculate_data(filename)
+    chart = alt.Chart(onStateRes, width=400, height=200).mark_line(point=True).encode(
+        x='Time:T',
+        y='ONStateRES:Q',
+        tooltip=['Time', 'ONStateRES']
+    ).configure_axis(
+        labelColor='gray',
+        titleColor='gray'
+    ).interactive()
+    return chart
+
+
 # render index.html as home page
 @app.route("/", methods=("GET", "POST"))
 def index():
-    isCalculated = False
+    #isCalculated = False
     jsonData = None
     if request.method == "POST":
         filename = request.form.get('testRunSelect')
-
         if filename == " ":
             error = 'You need to choose one data file!'
             flash(error)
         else:
-            onStateRes = calculate_data.calculate_data(filename)
-            chart = alt.Chart(onStateRes, width=400, height=200).mark_line(point=True).encode(
-                    x='Time:T',
-                    y='ONStateRES:Q',
-                    tooltip=['Time', 'ONStateRES']
-                ).configure_axis(
-                    labelColor='gray',
-                    titleColor='gray'
-                ).interactive()
-            absPath = os.path.join(myPath, 'static', 'resultImg', filename+ '.png')
-            relativePath = './resultImg/' + filename+ ".png"
-
-            chart.save(absPath)
-            print('Save PNG Successfully')
-            isCalculated = True
-
-            return render_template('index.html', path = relativePath, jsonData = chart.to_json())
-
-    return render_template('index.html', isCalculated = isCalculated, jsonData= jsonData)
+            filename = filename + '.json'
+            #chart = getChart(filename)
+            absPath = os.path.join(myPath, 'static', 'resultJSON', filename)
+            if os.path.exists(absPath):
+                f = open(absPath)
+                jsonData = json.load(f)
+                #isCalculated = True
+                return render_template('index.html', jsonData = jsonData)
+            else:
+                error = 'File No Local Version'
+                flash(error)
+    return render_template('index.html', jsonData= jsonData)
 
 ##################################################
 # Altair Data Routes

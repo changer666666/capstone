@@ -20,11 +20,11 @@ def getChart(filename):
     return chart.to_json()
 
 # Get test file
-for i in range(8,11):
-    filename = 'Test_' + str(i) + '_Run_1'
-    chartJSON = getChart(filename)
+# for i in [36]:
+filename = 'Test_36_run_1'
+chartJSON = getChart(filename)
     #print(chartJSON)
-    path = os.path.join(myPath, 'static', 'resultJSON', filename+ '.json')
-    with open(path, 'w') as f:
-        json.dump(chartJSON, f)
+path = os.path.join(myPath, 'static', 'resultJSON', filename+ '.json')
+with open(path, 'w') as f:
+    json.dump(chartJSON, f)
 

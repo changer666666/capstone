@@ -25,6 +25,7 @@ def getChart(filename):
 # render index.html as home page
 @app.route("/", methods=("GET", "POST"))
 def index():
+    loaded = 'hidden'
     #isCalculated = False
     jsonData = None
     if request.method == "POST":
@@ -33,19 +34,23 @@ def index():
             error = 'You need to choose one data file!'
             flash(error)
         else:
+            #imgPath = os.path.join('static', 'resultImg', filename+".png")
+            relativePath = './resultImg/' + filename+".png"
             filename = filename + '.json'
             #chart = getChart(filename)
             absPath = os.path.join(myPath, 'static', 'resultJSON', filename)
+            print(relativePath)
             if os.path.exists(absPath):
                 f = open(absPath)
                 jsonData = json.load(f)
                 #isCalculated = True
-                return render_template('index.html', jsonData = jsonData)
+                loaded = 'visible'
+                return render_template('index.html', jsonData = jsonData, path = relativePath)
             else:
                 error = 'File No Local Version'
                 flash(error)
-    return render_template('index.html', jsonData= jsonData)
-
+    return render_template('index.html', jsonData= jsonData, loaded = loaded)
+#C:\capstone\static\resultImg\Test_1_Run_1.png
 ##################################################
 # Altair Data Routes
 ##################################################

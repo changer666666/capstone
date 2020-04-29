@@ -16,8 +16,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-beta.14/vega-embed.js"></script>-->
 
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@3.0.0-rc12"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@3"></script>
     <script src="https://vega.github.io/datalib/datalib.min.js"></script>
 
     <!-- Vega Tooltip
@@ -34,7 +34,8 @@
         }
         #father{
             width: 1300px;
-            height: 828px;
+            height: 1300px;
+            {#height: auto;#}
             margin: auto;
             background-color: #181820;
         }
@@ -68,12 +69,12 @@
         }
         #underpart{
             width: 1280px;
-            height: 600px;
+            height: auto;
             padding: 25px;
         }
         #underpartcontent{
             width: 1240px;
-            height: 580px;
+            height: auto;
             margin: auto;
             background-color: #181820;
         }
@@ -138,6 +139,7 @@
         }
         #bottom{
             text-align: center;
+            height: auto
         }
         #button{
             background:url(static/HTMLimg/blast_off.png) no-repeat;
@@ -237,12 +239,13 @@
                     <!--4.Altair Part-->
                     <div style="height: auto" class="charts text-center">
 {#                        <div id="supplyVoltage"></div>#}
-                        <div id="supplyV"></div>
+                        <!--<div id="supplyV"></div>-->
                         <br>
                         <br>
 {#                        <div id="onState"></div>#}
                         <div id="onStateRes"></div>
-{#                        <img src="{{ url_for('static', filename=path, _t=val1) }}" width = "400px" height="200px" />#}
+                        <img style="visibility: {{loaded}}" src="{{ url_for('static', filename=path) }}" width = "800px" height="500px" />
+
                     </div>
                 </div>
             </div>
@@ -270,6 +273,8 @@
             mode: "vega-lite",
             renderer: "svg",
             actions: {export: true, source: true, editor: false},
+            width: 600,
+            //theme: googlecharts
         };
 
         vegaEmbed('#'+div, url, opt);
@@ -279,7 +284,10 @@
         var opt = {
             mode: "vega-lite",
             renderer: "svg",
-            actions: {export: true, source: true, editor: false}
+            actions: {export: true, source: true, editor: false},
+            width: 800,
+            height: 400
+
         };
 
         vegaEmbed('#' + div, jsonFile, opt);
@@ -290,7 +298,7 @@
     var resData = {{ jsonData | safe }};
     if (resData){
         {#document.getElementById(supplyVoltage).innerHTML = 'supplyVoltage:'#}
-        parseLink('supplyV', '/data/supplyV')
+        //parseLink('supplyV', '/data/supplyV')
         parseJson('onStateRes', resData)
     }
 </script>

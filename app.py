@@ -39,18 +39,19 @@ def index():
             filename = filename + '.json'
             #chart = getChart(filename)
             absPath = os.path.join(myPath, 'static', 'resultJSON', filename)
-            print(relativePath)
+            #print(relativePath)
             if os.path.exists(absPath):
                 f = open(absPath)
                 jsonData = json.load(f)
                 #isCalculated = True
-                loaded = 'visible'
-                return render_template('index.html', jsonData = jsonData, path = relativePath)
-            else:
-                error = 'File No Local Version'
-                flash(error)
+            loaded = 'visible'
+            return render_template('index.html', jsonData = jsonData, path = relativePath)
+            # else:
+            #     error = 'File No Local Version'
+            #     flash(error)
+
     return render_template('index.html', jsonData= jsonData, loaded = loaded)
-#C:\capstone\static\resultImg\Test_1_Run_1.png
+
 ##################################################
 # Altair Data Routes
 ##################################################

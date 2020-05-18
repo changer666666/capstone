@@ -4,10 +4,21 @@ import pandas as pd
 import calculate_data
 import os
 import json
+import boto3
 
 myPath = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 app.secret_key = 'testkey'
+
+
+def read_file_from_cloud(bucket, filename):
+    s3 = boto3.resource('s3',
+                        aws_access_key_id='AKIAI3UJLE5E54WROCRA',
+                        aws_secret_access_key='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')
+    content_object = s3.Object(bucket, filename)
+    file_content = content_object.get()['Body'].read().decode('utf-8')
+    json_content = json.loads(file_content)
+    return json_content
 
 def getChart(filename):
     onStateRes = calculate_data.calculate_data(filename)
@@ -20,7 +31,6 @@ def getChart(filename):
         titleColor='gray'
     ).interactive()
     return chart
-
 
 # render index.html as home page
 @app.route("/", methods=("GET", "POST"))

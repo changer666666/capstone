@@ -28,3 +28,5 @@ path = os.path.join(myPath, 'static', 'resultJSON', filename+ '.json')
 with open(path, 'w') as f:
     json.dump(chartJSON, f)
 
+
+

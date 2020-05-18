@@ -1,48 +1,89 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash, redirect, url_for
 import altair as alt
 import pandas as pd
-from vega_datasets import data
-import scipy.io as spio
-import numpy as np
-from pandas.io.json import json_normalize
-import pyarrow
+import calculate_data
+import os
+import json
+import boto3
 
-
-##########################
-# raw data extraction
-##########################
-supplyV = pd.read_parquet('MOSFET.parquet')
-
-
+myPath = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
+app.secret_key = 'testkey'
 
-##########################
-# Flask routes
-##########################
-# render index.html home page
+
+def read_file_from_cloud(bucket, filename):
+    s3 = boto3.resource('s3',
+                        aws_access_key_id='AKIAI3UJLE5E54WROCRA',
+                        aws_secret_access_key='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')
+    content_object = s3.Object(bucket, filename)
+    file_content = content_object.get()['Body'].read().decode('utf-8')
+    json_content = json.loads(file_content)
+    return json_content
+
+def getChart(filename):
+    onStateRes = calculate_data.calculate_data(filename)
+    chart = alt.Chart(onStateRes, width=400, height=200).mark_line(point=True).encode(
+        x='Time:T',
+        y='ONStateRES:Q',
+        tooltip=['Time', 'ONStateRES']
+    ).configure_axis(
+        labelColor='gray',
+        titleColor='gray'
+    ).interactive()
+    return chart
+
+# render index.html as home page
 @app.route("/", methods=("GET", "POST"))
 def index():
+    loaded = 'hidden'
+    #isCalculated = False
+    jsonData = None
     if request.method == "POST":
-        print(request.form.get('testRunSelect'))
-		#This file name is Test_X_Run_X
-		filename = request.form.get('testRunSelect')
-    return render_template('index.html')
+        filename = request.form.get('testRunSelect')
+        if filename == " ":
+            error = 'You need to choose one data file!'
+            flash(error)
+        else:
+            #imgPath = os.path.join('static', 'resultImg', filename+".png")
+            relativePath = './resultImg/' + filename+".png"
+            filename = filename + '.json'
+            #chart = getChart(filename)
+            absPath = os.path.join(myPath, 'static', 'resultJSON', filename)
+            #print(relativePath)
+            if os.path.exists(absPath):
+                f = open(absPath)
+                jsonData = json.load(f)
+                #isCalculated = True
+            loaded = 'visible'
+            return render_template('index.html', jsonData = jsonData, path = relativePath)
+            # else:
+            #     error = 'File No Local Version'
+            #     flash(error)
 
-# render supplyVoltage.html
+    return render_template('index.html', jsonData= jsonData, loaded = loaded)
+
+##################################################
+# Altair Data Routes
+##################################################
+
+########### supplyVotage
+mosfet_Path = os.path.join(myPath, 'MOSFET.parquet')
+supplyV = pd.read_parquet(mosfet_Path)
+
 @app.route("/supplyV")
 def show_supplyV():
     return render_template("supplyV.html")
 
-#########################
-### Altair Data Routes
-#########################
-
 @app.route("/data/supplyV")
 def supplyV_demo():
-    chart = alt.Chart(supplyV, width=600, height=300).mark_line(point=True).encode(
-                x='date:T',
-                y='supplyVoltage:Q'
-            ).interactive()
+    chart = alt.Chart(supplyV, width=400, height=200).mark_line(point=True).encode(
+        x='date:T',
+        y='supplyVoltage:Q',
+        tooltip=['date', 'supplyVoltage']
+    ).configure_axis(
+        labelColor='gray',
+        titleColor='gray'
+    ).interactive()
     return chart.to_json()
 
 if __name__ == "__main__":

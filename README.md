@@ -28,3 +28,8 @@ $ python ./app.py//
 Visit [http://localhost:5000](http://localhost:5000) in your browser, that's it!
 #### To run it as a web application:
 We have already deployed it in Heroku. Visit [Capstone Project](https://capstone-lm.herokuapp.com/) and you will see it!
+
+FAQs
+----
+#### Why I cannot see the Altair interactive charts?
+Altair in Python is based on Vega, which builds upon Chrome engine. If you are using other browsers, try to switch to Chrome of latest version and clear browsing data.

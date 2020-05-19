@@ -19,14 +19,14 @@ User interface:
 
 Running
 ----
-##### To run it in your local environment:
+#### To run it in your local environment:
 ```
 $ git clone https://github.com/lemoncyb/flasked-altair.git //
 $ cd flasked-altair//
 $ python ./app.py//
 ```
 Visit [http://localhost:5000](http://localhost:5000) in your browser, that's it!
-##### To run it as a web application:
+#### To run it as a web application:
 We have already deployed it in Heroku. Visit [Capstone Project](https://capstone-lm.herokuapp.com/) and you will see it!
 
 FAQs

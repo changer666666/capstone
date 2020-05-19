@@ -21,9 +21,9 @@ Running
 ----
 #### To run it in your local environment:
 ```
-$ git clone https://github.com/lemoncyb/flasked-altair.git //
-$ cd flasked-altair//
-$ python ./app.py//
+$ git clone https://github.com/lemoncyb/flasked-altair.git 
+$ cd flasked-altair
+$ python ./app.py
 ```
 Visit [http://localhost:5000](http://localhost:5000) in your browser, that's it!
 #### To run it as a web application:

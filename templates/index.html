@@ -34,7 +34,7 @@
         }
         #father{
             width: 1300px;
-            height: 1300px;
+            height: 3000px;
             {#height: auto;#}
             margin: auto;
             background-color: #181820;
@@ -189,18 +189,18 @@
                             <p><font color="#C4C7D1" size="6" face="Arial"> TEST & RUN </font></p>
                             <div class="select1">
                                 <select name="testRunSelect" id="testRunSelect">
-                                    <option value =" ">Choose File..</option>
-                                    <option value ="Test_1_Run_1">Test_1_Run_1</option>
-                                    <option value ="Test_2_Run_1">Test_2_Run_1</option>
-                                    <option value ="Test_3_Run_1">Test_3_Run_1</option>
-                                    <option value ="Test_4_Run_1">Test_4_Run_1</option>
-                                    <option value ="Test_5_Run_1">Test_5_Run_1</option>
-                                    <option value ="Test_6_Run_1">Test_6_Run_1</option>
-                                    <option value ="Test_7_Run_1">Test_7_Run_1</option>
-                                    <option value ="Test_8_Run_1">Test_8_Run_1</option>
-                                    <option value ="Test_9_Run_1">Test_9_Run_1</option>
-                                    <option value ="Test_10_Run_1">Test_10_Run_1</option>
-                                    <option value ="Test_36_Run_1">Test_36_Run_1</option>
+                                    <option value =" ">Choose Test</option>
+                                    <option value ="1">Test_1</option>
+                                    <option value ="2">Test_2</option>
+                                    <option value ="3">Test_3</option>
+                                    <option value ="4">Test_4</option>
+                                    <option value ="5">Test_5</option>
+                                    <option value ="6">Test_6</option>
+                                    <option value ="7">Test_7</option>
+                                    <option value ="8">Test_8</option>
+                                    <option value ="9">Test_9</option>
+                                    <option value ="10">Test_10</option>
+{#                                    <option value ="Test_36_Run_1">Test_36</option>#}
                                 </select>
                             </div>
                         </div>
@@ -244,9 +244,10 @@
                         <br>
                         <br>
 {#                        <div id="onState"></div>#}
-                        <div id="onStateRes"></div>
-                        <img style="visibility: {{loaded}}" src="{{ url_for('static', filename=path) }}" width = "800px" height="500px" />
-
+                        <div id="basic"></div>
+                        <div id="gsVoltage"></div>
+                        <div id="regression"></div>
+                        <img style="visibility: {{loaded}}" src="{{ url_for('static', filename=path,_t=val1) }}" width = "800px" height="500px" />
                     </div>
                 </div>
             </div>
@@ -286,7 +287,7 @@
             mode: "vega-lite",
             renderer: "svg",
             actions: {export: true, source: true, editor: false},
-            width: 800,
+            width: 900,
             height: 400
 
         };
@@ -296,15 +297,18 @@
 </script>
 
 <script>
-    var resData = {{ jsonData | safe }};
-    if (resData){
-        {#document.getElementById(supplyVoltage).innerHTML = 'supplyVoltage:'#}
-        //parseLink('supplyV', '/data/supplyV')
-        parseJson('onStateRes', resData)
+    var basicData = {{ basicData | safe }};
+    var gsVoltageData = {{ gsVoltageData | safe }};
+    var regData = {{ regData | safe }};
+
+    if (basicData){
+        parseJson('basic', basicData);
+        parseJson('gsVoltage', gsVoltageData);
+        parseJson('regression', regData);
     }
+    console.log(basicData)
+    console.log(gsVoltageData)
 </script>
-
-
 
 </body>
 </html>

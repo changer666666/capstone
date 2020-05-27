@@ -36,31 +36,37 @@ def getChart(filename):
 @app.route("/", methods=("GET", "POST"))
 def index():
     loaded = 'hidden'
-    #isCalculated = False
-    jsonData = None
+    basicData = None
+    regData = None
+    gsVoltageData = None
+    # imgPath = None
     if request.method == "POST":
-        filename = request.form.get('testRunSelect')
-        if filename == " ":
+        testNum = request.form.get('testRunSelect')
+        if testNum == " ":
             error = 'You need to choose one data file!'
             flash(error)
         else:
-            #imgPath = os.path.join('static', 'resultImg', filename+".png")
-            relativePath = './resultImg/' + filename+".png"
-            filename = filename + '.json'
-            #chart = getChart(filename)
-            absPath = os.path.join(myPath, 'static', 'resultJSON', filename)
-            #print(relativePath)
-            if os.path.exists(absPath):
-                f = open(absPath)
-                jsonData = json.load(f)
-                #isCalculated = True
-            loaded = 'visible'
-            return render_template('index.html', jsonData = jsonData, path = relativePath)
-            # else:
-            #     error = 'File No Local Version'
-            #     flash(error)
+            # Get data path
+            imgPath = './resultImg/' + 'mosfet' + str(testNum) + '.png'
+            basicPath = os.path.join(myPath, 'static', 'resultJSON', 'basic{}.json'.format(testNum))
+            gsVoltagePath = os.path.join(myPath, 'static', 'resultJSON', 'gsVoltage{}.json'.format(testNum))
+            regPath = os.path.join(myPath, 'static', 'resultJSON', 'regression{}.json'.format(testNum))
 
-    return render_template('index.html', jsonData= jsonData, loaded = loaded)
+            # Load data if exist
+            if os.path.exists(basicPath) and os.path.exists(gsVoltagePath) and os.path.exists(regPath):
+                f = open(basicPath)
+                basicData = json.load(f)
+                f = open(gsVoltagePath)
+                gsVoltageData = json.load(f)
+                f = open(regPath)
+                regData = json.load(f)
+            else:
+                # load image
+                loaded = 'visible'
+
+            return render_template('index.html', loaded = loaded, basicData = basicData, gsVoltageData = gsVoltageData, regData = regData, path = imgPath)
+
+    return render_template('index.html', loaded = loaded, basicData = basicData, gsVoltageData = gsVoltageData, regData = regData)
 
 ##################################################
 # Altair Data Routes

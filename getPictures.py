@@ -484,8 +484,8 @@ def getPic(mosfet):
     print("                All Algorithms = " + str(round(((exponentRegression - dataCleaning) / totTime) * 100000) / 1000) + "%")
     print("                 Plotting Data = " + str(round(((plotting - basicRegression) / totTime) * 100000) / 1000) + "%")
 
-for i in range(1,11):
-    try:
-        getPic(i)
-    except:
-        continue
+# for i in range(1,11):
+#     try:
+getPic(5)
+    # except:
+        # continue

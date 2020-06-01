@@ -35,7 +35,7 @@ import math
 # print("failure threshold is: " + str(failureThreshold))
 
 failureThreshold = 0.05
-rulError = int("20")
+rulError = float("20")
 start = time.perf_counter()
 
 testRun = [[1, 2], [2, 3], [3, 1], [4, 2], [5, 2], [6, 2], [7, 1], [8, 7], [9, 7], [10, 7], [11, 7], [12, 7], [13, 5],
@@ -238,6 +238,9 @@ def toSec(time):
     fM_sec = float(time[m_sec])
     return (fHr * 3600) + (fMin * 60) + fSec + (fM_sec / 1000)
 
+def downsample_to_proportion(rows, proportion):
+    return rows[::int(1 / proportion)]
+
 def getAllDF(mosfet):
     global startUp_out
     global c
@@ -332,6 +335,9 @@ def getAllDF(mosfet):
                 transformation = tempValidated * math.sqrt(abs(1.0 / tempValidatedGSoV)) * calibrator
                 runCleaned.append(transformation)
                 cleaned.append(transformation)
+                # cleaning equation logic below
+                # - normalized to square root based on: gate-to-source voltage / 250C ratio
+                # - damped (10%)
 
         #####----- SAMPLING VARIABLES -----#####
         sampled = []  # cleaned data after minute sampling rate has been implemented
@@ -394,10 +400,10 @@ def getAllDF(mosfet):
     for i in range(len(semiData) - 1):
         n = i + 1
         jump = semiData[n] - masterData[len(masterData) - 1]
-        print("jump = " + str(jump))
-        print("semiData[n] = " + str(semiData[n]))
-        print("masterTime[n] = " + str(masterTime[n]))
-        print("failure threshold = " + str(failureThreshold))
+        # print("jump = " + str(jump))
+        # print("semiData[n] = " + str(semiData[n]))
+        # print("masterTime[n] = " + str(masterTime[n]))
+        # print("failure threshold = " + str(failureThreshold))
         if (mosfet == 27 or mosfet == 28 or mosfet == 41 or mosfet == 42):
             masterData.append(abs(semiData[n]))
         else:
@@ -409,8 +415,8 @@ def getAllDF(mosfet):
                     masterData.append(masterData[len(masterData) - 1] + (jump / bgt))
                     print(" made it to bgt")
             else: masterData.append(semiData[n])
-        print("masterData[n] = " + str(masterData[n]))
-        print()
+        # print("masterData[n] = " + str(masterData[n]))
+        # print()
     tempTime = []
     tempIncr = (testTime / 60) / len(rawCaseTemp)
     for i in range(len(rawCaseTemp)):
@@ -535,10 +541,10 @@ def getAllDF(mosfet):
 
     exponentRegression = time.perf_counter()
 
-    print("length of brALL " + str(len(brALL)))
-    print("length of linALL " + str(len(linALL)))
-    print("length of expALL " + str(len(expALL)))
-    print("length of rnnTempTime " + str(len(rnnTempTime)))
+    # print("length of brALL " + str(len(brALL)))
+    # print("length of linALL " + str(len(linALL)))
+    # print("length of expALL " + str(len(expALL)))
+    # print("length of rnnTempTime " + str(len(rnnTempTime)))
 
     hi2 = highError * 2
     for i in range(len(brALL)):
@@ -644,27 +650,63 @@ def getAllDF(mosfet):
     # plt.fill_between(x, Yl, Yh, color='gainsboro')
     # plt.plot(x, Ym, color='dimgray')
 
-
+    # print(len(cleanTime))
+    # print(len(validated))
+    # print(len(validatedGSoV))
     #####----- PLOTTING -----#####
-    rawData_df = pd.DataFrame({'cleanTime': cleanTime, 'validated': validated})   # Data Based on Gate-to-Source Voltage
-    dsRes_df = pd.DataFrame({'cleanTime': cleanTime, 'shiftedClean': cleanShifted})
-    dsResSampled_df = pd.DataFrame({'masterTime': masterTime, 'masterData': masterData})
+    if len(cleanTime) > 4000:
+        length = len(cleanTime)
+        cleanTime = downsample_to_proportion(cleanTime, 4000. / length)
+        validatedGSoV = downsample_to_proportion(validatedGSoV, 4000. / length)
+        validated = downsample_to_proportion(validated, 4000. / length)
+        cleanShifted = downsample_to_proportion(cleanShifted, 4000. / length)
+    rawData_df = pd.DataFrame({'time': cleanTime, 'Raw Voltage': validated})   # Data Based on Gate-to-Source Voltage
+    # print(len(validated))
+    dsRes_df = pd.DataFrame({'time': cleanTime, 'Cleaned Data': cleanShifted})
+    # print(len(cleanShifted))
 
-    gsVoltage = pd.DataFrame({'cleanTime': cleanTime, 'validatedGSoV': validatedGSoV}) # On-State Gate-to-Source Voltage
+    if len(masterTime) > 5000:
+        masterTime = downsample_to_proportion(masterTime, 5000. / len(masterTime))
+        masterData = downsample_to_proportion(masterData, 5000. / len(masterData))
+    dsResSampled_df = pd.DataFrame({'time': masterTime, 'Sampled Data': masterData})
+    # print(len(masterData))
 
-    temp = pd.DataFrame({'tempTime': tempTime, 'rawCaseTemp': rawCaseTemp}) # Flange temp and package temp
-    packTemp = pd.DataFrame({'tempTime': tempTime, 'rawPackageTemp': rawPackageTemp})
+    # print(rawData_df.shape[0])
+    # print(dsRes_df.shape[0])
+    # print(dsResSampled_df.shape[0])
 
-    br_df = pd.DataFrame({'brTime': brTime, 'brRegression': brRegression})      # Regression
-    lir_df = pd.DataFrame({'linTime': linTime, 'linRegression': linRegression})
-    expr_df = pd.DataFrame({'expTime': expTime, 'expRegression': expRegression})
-    rnn_df = pd.DataFrame({'rnnTime': rnnTime, 'rnn': rnn})
+    gsVoltage = pd.DataFrame({'time': cleanTime, 'Gate-to-Source Voltage Data': validatedGSoV}) # On-State Gate-to-Source Voltage
 
+    if len(tempTime) > 2000:
+        tempTime = downsample_to_proportion(tempTime, 2000. / len(tempTime))
+        rawCaseTemp = downsample_to_proportion(rawCaseTemp, 2000. / len(rawCaseTemp))
+        rawPackageTemp = downsample_to_proportion(rawPackageTemp, 2000. / len(rawPackageTemp))
+    # print('temptime length: ' + str(len(tempTime)))
+    temp = pd.DataFrame({'time': tempTime, 'raw_Case_Temperature': rawCaseTemp}) # Flange temp and package temp
+    packTemp = pd.DataFrame({'time': tempTime, 'raw_Package_Temperature': rawPackageTemp})
+
+    br_df = pd.DataFrame({'time': brTime, 'Basic_Regression': brRegression})      # Regression
+    lir_df = pd.DataFrame({'time': linTime, 'Linear_Regression': linRegression})
+    expr_df = pd.DataFrame({'time': expTime, 'Exponentional_Regression': expRegression})
+    rnn_df = pd.DataFrame({'time': rnnTime, 'Rnn': rnn})
+
+    if len(ifTime) > 4000:
+        print(len(ifTime))
+        ifTime = downsample_to_proportion(ifTime, 4000. / len(ifTime))
+        print(len(ifTime))
+        print(len(iFault))
+        iFault = downsample_to_proportion(iFault, 4000. / len(iFault))
+        print(len(iFault))
+
+    if (len(sfTime) > 4000):
+        print(len(sfTime))
+        sfTime = downsample_to_proportion(sfTime, 4000. / len(sfTime))
+        print(len(sfTime))
+        print(len(sFault))
+        sFault = downsample_to_proportion(sFault, 4000. / len(sFault))
+        print(len(sFault))
     inciFault = pd.DataFrame({'ifTime': ifTime, 'iFault': iFault})
     stndFault = pd.DataFrame({'sfTime': sfTime, 'sFault': sFault})
 
-
-    print(dsRes_df.size)
     return rawData_df, dsRes_df, dsResSampled_df, gsVoltage, temp, packTemp, br_df, lir_df, expr_df, rnn_df, inciFault, stndFault
 #
-getAllDF(1)

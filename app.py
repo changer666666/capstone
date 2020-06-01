@@ -39,7 +39,9 @@ def index():
     basicData = None
     regData = None
     gsVoltageData = None
-    # imgPath = None
+    faultData = None
+    tempData = None
+    # testNum = None
     if request.method == "POST":
         testNum = request.form.get('testRunSelect')
         if testNum == " ":
@@ -51,22 +53,32 @@ def index():
             basicPath = os.path.join(myPath, 'static', 'resultJSON', 'basic{}.json'.format(testNum))
             gsVoltagePath = os.path.join(myPath, 'static', 'resultJSON', 'gsVoltage{}.json'.format(testNum))
             regPath = os.path.join(myPath, 'static', 'resultJSON', 'regression{}.json'.format(testNum))
-
+            tempPath = os.path.join(myPath, 'static', 'resultJSON', 'temp{}.json'.format(testNum))
+            faultPath = os.path.join(myPath, 'static', 'resultJSON', 'fault{}.json'.format(testNum))
             # Load data if exist
-            if os.path.exists(basicPath) and os.path.exists(gsVoltagePath) and os.path.exists(regPath):
+            if os.path.exists(basicPath):
                 f = open(basicPath)
                 basicData = json.load(f)
+                loaded = 'visible'
+            if os.path.exists(gsVoltagePath):
                 f = open(gsVoltagePath)
                 gsVoltageData = json.load(f)
+            if os.path.exists(regPath):
                 f = open(regPath)
                 regData = json.load(f)
-            else:
-                # load image
-                loaded = 'visible'
+            if os.path.exists(tempPath):
+                f = open(tempPath)
+                tempData = json.load(f)
+            if os.path.exists(faultPath):
+                f = open(faultPath)
+                faultData = json.load(f)
 
-            return render_template('index.html', loaded = loaded, basicData = basicData, gsVoltageData = gsVoltageData, regData = regData, path = imgPath)
+            return render_template('index.html', loaded = loaded, basicData = basicData,
+                                   gsVoltageData = gsVoltageData, regData = regData, path = imgPath,
+                                   tempData = tempData, faultData = faultData, testNum=testNum)
 
-    return render_template('index.html', loaded = loaded, basicData = basicData, gsVoltageData = gsVoltageData, regData = regData)
+    return render_template('index.html', loaded = loaded, basicData = basicData, gsVoltageData = gsVoltageData,
+        tempData = tempData, regData = regData, faultData=faultData)
 
 ##################################################
 # Altair Data Routes

@@ -398,10 +398,10 @@ masterData.append(semiData[0])
 for i in range(len(semiData) - 1):
     n = i + 1
     jump = semiData[n] - masterData[len(masterData) - 1]
-    print("jump = " + str(jump))
-    print("semiData[n] = " + str(semiData[n]))
-    print("masterTime[n] = " + str(masterTime[n]))
-    print("failure threshold = " + str(failureThreshold))
+    # print("jump = " + str(jump))
+    # print("semiData[n] = " + str(semiData[n]))
+    # print("masterTime[n] = " + str(masterTime[n]))
+    # print("failure threshold = " + str(failureThreshold))
     if (mosfet == 27 or mosfet == 28 or mosfet == 41 or mosfet == 42):
         masterData.append(abs(semiData[n]))
     else:
@@ -413,8 +413,8 @@ for i in range(len(semiData) - 1):
                 masterData.append(masterData[len(masterData) - 1] + (jump / bgt))
                 print(" made it to bgt")
         else: masterData.append(semiData[n])
-    print("masterData[n] = " + str(masterData[n]))
-    print()
+    # print("masterData[n] = " + str(masterData[n]))
+    # print()
 tempTime = []
 tempIncr = (testTime / 60) / len(rawCaseTemp)
 for i in range(len(rawCaseTemp)):
@@ -671,7 +671,9 @@ plt.grid(True)
 
 #raw rds and cleaned rds
 plt.figure()
-
+print('previous length: ')
+print(len(cleanTime))
+print(len(validated))
 plt.subplot(211)
 plt.title("MOSFET " + str(mosfet) + " ON-State Drain-to-Source Resistance")
 plt.plot(cleanTime, validated, color='black', label="Raw ON-State Drain-to-Source Resistance")

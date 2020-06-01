@@ -177,33 +177,28 @@
 
                     <form action="/" method="post">
                         <div class="menutag" id="dataset">
-                            <p><font color="#C4C7D1" size="6" face="Arial"> DATASET </font></p>
-                            <div class="select1">
-                                <select name = "datasetSelect" id="datasetSelect">
-                                    <option value ="MOSFET_Data">MOSFET_Data</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="menutag" id="testRun">
-                            <p><font color="#C4C7D1" size="6" face="Arial"> TEST & RUN </font></p>
+                            <p><font color="#C4C7D1" size="6" face="Arial"> MOSFETS </font></p>
                             <div class="select1">
                                 <select name="testRunSelect" id="testRunSelect">
-                                    <option value =" ">Choose Test</option>
-                                    <option value ="1">Test_1</option>
-                                    <option value ="2">Test_2</option>
-                                    <option value ="3">Test_3</option>
-                                    <option value ="4">Test_4</option>
-                                    <option value ="5">Test_5</option>
-                                    <option value ="6">Test_6</option>
-                                    <option value ="7">Test_7</option>
-                                    <option value ="8">Test_8</option>
-                                    <option value ="9">Test_9</option>
-                                    <option value ="10">Test_10</option>
-{#                                    <option value ="Test_36_Run_1">Test_36</option>#}
+                                    <option value =" ">Choose MOSFET</option>
+                                    <option value ="1">MOSFET_1</option>
+                                    <option value ="2">MOSFET_2(DAMAGED)</option>
+                                    <option value ="3">MOSFET_3</option>
+                                    <option value ="4">MOSFET_4</option>
+                                    <option value ="5">MOSFET_5</option>
+                                    <option value ="6">MOSFET_6</option>
+                                    <option value ="7">MOSFET_7</option>
+                                    <option value ="8">MOSFET_8</option>
+                                    <option value ="9">MOSFET_9</option>
+                                    <option value ="10">MOSFET_10</option>
                                 </select>
                             </div>
                         </div>
+{##}
+{#                        <div class="menutag" id="testRun">#}
+{#                            <p><font color="#C4C7D1" size="6" face="Arial"> TEST & RUN </font></p>#}
+{#                            <div class="select1"></div>#}
+{#                        </div>#}
 
                         {% with messages = get_flashed_messages() %}
                             {% if messages %}
@@ -244,10 +239,15 @@
                         <br>
                         <br>
 {#                        <div id="onState"></div>#}
+                        <p style="visibility: {{ loaded }}; color: cornsilk; font-size: xx-large">MOSFET {{ testNum }}</p>
+
                         <div id="basic"></div>
                         <div id="gsVoltage"></div>
+                        <div id="temp"></div>
                         <div id="regression"></div>
-                        <img style="visibility: {{loaded}}" src="{{ url_for('static', filename=path,_t=val1) }}" width = "800px" height="500px" />
+                        <div id="fault"></div>
+
+{#                        <img style="visibility: {{loaded}}" src="{{ url_for('static', filename=path,_t=val1) }}" width = "800px" height="500px" />#}
                     </div>
                 </div>
             </div>
@@ -300,14 +300,17 @@
     var basicData = {{ basicData | safe }};
     var gsVoltageData = {{ gsVoltageData | safe }};
     var regData = {{ regData | safe }};
+    var tempData = {{ tempData | safe }};
+    var faultData = {{ faultData | safe }}
 
     if (basicData){
         parseJson('basic', basicData);
         parseJson('gsVoltage', gsVoltageData);
         parseJson('regression', regData);
+        parseJson('temp', tempData);
+        parseJson('fault', faultData);
+
     }
-    console.log(basicData)
-    console.log(gsVoltageData)
 </script>
 
 </body>

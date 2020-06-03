@@ -33,17 +33,20 @@
             background-color: #000000;
         }
         #father{
-            width: 1300px;
-            height: 4000px;
-            {#height: auto;#}
+            /*width: 3000px;*/
+            height: 3000px;
+        {#height: auto;#}
             margin: auto;
             background-color: #181820;
         }
         #logo{
-            width: 1300px;
+            /*width: 1500px;*/
             height: 150px;
             background-color: #202028;
             text-align: center;
+            margin: auto;
+            padding-left: 200px;
+            padding-right: 200px;
         }
         .top{
             float: left;
@@ -54,56 +57,76 @@
             height: 100px;
             float: left;
             text-align: center;
+            /*padding-left: 200px;*/
+            padding-right: 200px;
         }
         #title{
             width: 750px;
             height: 100px;
             float: left;
             text-align: center;
+            padding-left: 200px;
+            padding-right: 200px;
         }
         #uw{
             width: 230px;
             height: 100px;
             float: left;
             text-align: center;
+            padding-left: 300px;
+            padding-right: 200px;
         }
         #underpart{
-            width: 1280px;
+            /*width: 1280px;*/
             height: auto;
-            padding: 25px;
+            padding-top: 25px;
+            padding-left: 0px;
+            padding-right: 0px;
+            margin-left: 0px;
+            margin-right: 0px;
         }
         #underpartcontent{
-            width: 1240px;
+            /*width: 1240px;*/
             height: auto;
-            margin: auto;
             background-color: #181820;
         }
         #leftmenu{
-            width: 300px;
-            height: 550px;
-            float: left;
-            background-color: #202028;
+            /*width: 1300px;*/
+            height: 70px;
+            background: linear-gradient(90deg, rgba(90,29,157,1) 0%, rgba(18,60,140,1) 100%);
             text-align: center;
             border-width: 10px;
             padding: 10px;
         }
         .menutag{
-            width: 250px;
-            background-color: #31313D;
+            float: left;
+            /*width: 250px;*/
+            /*background-color: #31313D;*/
             border-width: 10px;
-            margin-left: 10px;
-            margin-right: 10px;
-            margin-top: 10px;
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-top: 15px;
             margin-bottom: 10px;
 
-            padding-top: 10px;
-            padding-right: 10px;
+            padding-top: 20px;
             padding-bottom: 10px;
-            padding-left: 10px;
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        .numberStyle{
+            padding-top: 8px;
+            padding-right: 0px;
+            padding-bottom: 10px;
+            padding-left: 90px;
+        }
+        .floattag{
+            float: left;
+            margin-left: 20px;
+            margin-right: 20px;
         }
         .select1 {
-            background: rgba(75,0,130,0.8);/*Background and Opacity，can set image URL as background*/
-            width: 193px;/*width*/
+            background: rgba(32,32,40,1);/*Background and Opacity，can set image URL as background*/
+            width: 238px;/*width*/
             height: 40px;/*Height*/
             margin-top: 5px;/*Top Margin*/
             margin-left: 10px;
@@ -115,14 +138,14 @@
             background: transparent;/*Opacity*/
             border: none;
             padding-left: 10px;
-            width: 205px;
+            width: 240px;
             height: 100%;
             border-radius: 10px;
-            color: black;
+            color: #A3A8B6;
             font-family: "Arial";
         }
         #blastoff{
-            margin-top: 20px;
+            margin-top: 15px;
             float: left;
         }
         #rocket{
@@ -130,9 +153,9 @@
             float: right;
         }
         #righttable{
-            width: 920px;
-            float: right;
-            background-color: #202028;
+            /*width: 1250px;*/
+            /*float: right;*/
+            /*background-color: #202028;*/
             text-align: center;
             border-width: 10px;
             padding: 10px;
@@ -142,12 +165,19 @@
             height: auto
         }
         #button{
-            background:url(static/HTMLimg/blast_off.png) no-repeat;
-            width:200px;
-            height:90px;
+            background:url(../static/HTMLimg/blast_off.png) no-repeat;
+            width:300px;
+            height:60px;
             border:0px;
             cursor:pointer;
             background-size: 100%;
+
+            margin-top: -15px;
+            margin-bottom: 10px;
+
+            {#padding-bottom: -15px;#}
+            padding-left: 10px;
+
         }
 
     </style>
@@ -169,6 +199,7 @@
             </div>
         </div>
 
+
         <!--3.menu and table-->
         <div id="underpart">
             <div id="underpartcontent">
@@ -176,9 +207,12 @@
                 <div id="leftmenu">
 
                     <form action="/" method="post">
-                        <div class="menutag" id="dataset">
-                            <p><font color="#C4C7D1" size="6" face="Arial"> MOSFETS </font></p>
-                            <div class="select1">
+                        <div class="floattag" id="dataset">
+                            <div class="numberStyle floattag">
+                                <img src="{{ url_for('static', filename= './HTMLimg/number1.png',_t=val1) }}" width="30px" height="30px" alt="number1"></img>
+                            </div>
+                            <p class="floattag"><font color="#C4C7D1" size="6" face="Arial"> MOSFETS </font></p>
+                            <div class="select1 floattag">
                                 <select name="testRunSelect" id="testRunSelect">
                                     <option value =" ">Select MOSFET...</option>
                                     <option value ="1">MOSFET_1</option>
@@ -227,48 +261,45 @@
 
                                     <option value ="41">MOSFET_41</option>
                                     <option value ="42">MOSFET_42</option>
-
                                 </select>
                             </div>
                         </div>
-{##}
-{#                        <div class="menutag" id="testRun">#}
-{#                            <p><font color="#C4C7D1" size="6" face="Arial"> TEST & RUN </font></p>#}
-{#                            <div class="select1"></div>#}
-{#                        </div>#}
+                        {##}
+                        {#                        <div class="menutag" id="testRun">#}
+                        {#                            <p><font color="#C4C7D1" size="6" face="Arial"> TEST & RUN </font></p>#}
+                        {#                        </div>#}
+                        {#                        <div class="menutag" id="testRun">#}
+                        {#                            <div class="select1"></div>#}
+                        {#                        </div>#}
 
                         {% with messages = get_flashed_messages() %}
                             {% if messages %}
                                 <script>
                                     var messages = {{ messages | safe }}
-                                    alert(messages);
+                                        alert(messages);
                                 </script>
                             {% endif %}
                         {% endwith %}
 
-                        <div class="menutag" id="parameters">
-                            <p><font color="#C4C7D1" size="6" face="Arial"> PARAMETERS </font></p>
-                            <div class="select1">
+                        <div class="floattag" id="parameters">
+                            <div class="numberStyle floattag">
+                                <img src="{{ url_for('static', filename= './HTMLimg/number2.png',_t=val1) }}" width="30px" height="30px" alt="number2"></img>
+                            </div>
+                            <p class="floattag"><font color="#C4C7D1" size="6" face="Arial"> PARAMETERS </font></p>
+                            <div class="select1 floattag">
                                 <select name="parametersSelect" id="parametersSelect">
-                                    <option value ="Default">Select Parameter...</option>
-{#                                    <option value ="rRes">Raw On-State Resistance</option>#}
-{#                                    <option value ="cRes">Cleaned On-State Resistance</option>#}
-{#                                    <option value ="fault">Fault Investigation</option>#}
-{#                                    <option value ="reg">RUL Analysis</option>#}
-{#                                    <option value ="temp">Temperature</option>#}
-{#                                    <option value ="gsVoltage">On-State Voltage</option>#}
+                                    <option value ="Drain_Source_Resistance_Time">Select Paramter...</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div id="blastoff">
-                            <input type="submit" name="button" id="button" value="" />
-                            </input>
+                        <div class="numberStyle floattag">
+                            <img src="{{ url_for('static', filename= './HTMLimg/number3.png',_t=val1) }}" width="30px" height="30px" alt="number3"></img>
                         </div>
 
-
-                        <div id="rocket">
-                            <img src="{{ url_for('static', filename= './HTMLimg/rocket.png',_t=val1) }}" width = "50px" height="90px"/>
+                        <div class="floattag" id="blastoff">
+                            <input type="submit" name="button" id="button" value="" />
+                            </input>
                         </div>
                     </form>
                 </div>
@@ -277,23 +308,30 @@
                 <div id="righttable">
                     <!--4.Altair Part-->
                     <div style="height: auto" class="charts text-center">
-{#                        <div id="supplyVoltage"></div>#}
+                        {#                        <div id="supplyVoltage"></div>#}
                         <!--<div id="supplyV"></div>-->
                         <br>
                         <br>
-{#                        <div id="onState"></div>#}
+                        {#                        <div id="onState"></div>#}
                         <p style="visibility: {{ loaded }}; color: cornsilk; font-size: xx-large">MOSFET {{ testNum }}</p>
 
                         <div id="regression"></div>
                         <div id="fault"></div>
+                        <br style="visibility: {{ loaded }}">
+                        <br style="visibility: {{ loaded }}">
+                        <br style="visibility: {{ loaded }}">
+                        <br style="visibility: {{ loaded }}">
                         <div id="rawRes"></div>
-{#                        <br style="visibility: {{ loaded }}">#}
                         <div id="cleanedRes"></div>
+                        <br style="visibility: {{ loaded }}">
+                        <br style="visibility: {{ loaded }}">
+                        <br style="visibility: {{ loaded }}">
+                        <br style="visibility: {{ loaded }}">
                         <div id="gsVoltage"></div>
                         <div id="temp"></div>
 
 
-{#                        <img style="visibility: {{loaded}}" src="{{ url_for('static', filename=path,_t=val1) }}" width = "800px" height="500px" />#}
+                        {#                        <img style="visibility: {{loaded}}" src="{{ url_for('static', filename=path,_t=val1) }}" width = "800px" height="500px" />#}
                     </div>
                 </div>
             </div>
@@ -303,11 +341,11 @@
     <div id="bottom">
         <a href="#">&nbsp;&nbsp;About&nbsp;&nbsp;</a>
         <a href="#">&nbsp;&nbsp;Contact&nbsp;&nbsp;</a>
-{#        <a href="#">&nbsp;&nbsp;Recruit&nbsp;&nbsp;</a>#}
+        {#        <a href="#">&nbsp;&nbsp;Recruit&nbsp;&nbsp;</a>#}
         <a href="#">&nbsp;&nbsp;Privacy&nbsp;&nbsp;</a>
         <a href="#">&nbsp;&nbsp;Links&nbsp;&nbsp;</a>
         <a href="#">&nbsp;&nbsp;Announcement&nbsp;&nbsp;</a>
-{#        <a href="#">&nbsp;&nbsp;Advertisement&nbsp;&nbsp;</a>#}
+        {#        <a href="#">&nbsp;&nbsp;Advertisement&nbsp;&nbsp;</a>#}
         <p>
             <font color="white">Copyright © 2020 Lockheed Martin. University of Washington. All rights reserved.</font>
         </p>
@@ -344,7 +382,7 @@
 
 <script>
     var rResData = {{ rResData | safe }};
-    var cResData = {{ cResData | safe }}
+    var cResData = {{ cResData | safe }};
     var gsVoltageData = {{ gsVoltageData | safe }};
     var regData = {{ regData | safe }};
     var tempData = {{ tempData | safe }};
@@ -358,9 +396,7 @@
         parseJson('temp', tempData);
         parseJson('fault', faultData);
     }
-
 </script>
 
 </body>
 </html>
-

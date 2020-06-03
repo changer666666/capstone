@@ -34,7 +34,7 @@
         }
         #father{
             width: 1300px;
-            height: 3000px;
+            height: 4000px;
             {#height: auto;#}
             margin: auto;
             background-color: #181820;
@@ -180,17 +180,54 @@
                             <p><font color="#C4C7D1" size="6" face="Arial"> MOSFETS </font></p>
                             <div class="select1">
                                 <select name="testRunSelect" id="testRunSelect">
-                                    <option value =" ">Choose MOSFET</option>
+                                    <option value =" ">Select MOSFET...</option>
                                     <option value ="1">MOSFET_1</option>
                                     <option value ="2">MOSFET_2(DAMAGED)</option>
                                     <option value ="3">MOSFET_3</option>
-                                    <option value ="4">MOSFET_4</option>
+                                    <option value ="4">MOSFET_4(DAMAGED)</option>
                                     <option value ="5">MOSFET_5</option>
                                     <option value ="6">MOSFET_6</option>
                                     <option value ="7">MOSFET_7</option>
                                     <option value ="8">MOSFET_8</option>
                                     <option value ="9">MOSFET_9</option>
                                     <option value ="10">MOSFET_10</option>
+
+                                    <option value ="11">MOSFET_11</option>
+                                    <option value ="12">MOSFET_12</option>
+                                    <option value ="13">MOSFET_13</option>
+                                    <option value ="14">MOSFET_14</option>
+                                    <option value ="15">MOSFET_15</option>
+                                    <option value ="16">MOSFET_16</option>
+                                    <option value ="17">MOSFET_17</option>
+                                    <option value ="18">MOSFET_18</option>
+                                    <option value ="19">MOSFET_19</option>
+                                    <option value ="20">MOSFET_20</option>
+
+                                    <option value ="21">MOSFET_21</option>
+                                    <option value ="22">MOSFET_22</option>
+                                    <option value ="23">MOSFET_23</option>
+                                    <option value ="24">MOSFET_24</option>
+                                    <option value ="25">MOSFET_25</option>
+                                    <option value ="26">MOSFET_26</option>
+                                    <option value ="27">MOSFET_27(DAMAGED)</option>
+                                    <option value ="28">MOSFET_28</option>
+                                    <option value ="29">MOSFET_29</option>
+                                    <option value ="30">MOSFET_30</option>
+
+                                    <option value ="31">MOSFET_31</option>
+                                    <option value ="32">MOSFET_32</option>
+                                    <option value ="33">MOSFET_33</option>
+                                    <option value ="34">MOSFET_34</option>
+                                    <option value ="35">MOSFET_35</option>
+                                    <option value ="36">MOSFET_36</option>
+                                    <option value ="37">MOSFET_37</option>
+                                    <option value ="38">MOSFET_38</option>
+                                    <option value ="39">MOSFET_39</option>
+                                    <option value ="40">MOSFET_40(DAMAGED)</option>
+
+                                    <option value ="41">MOSFET_41</option>
+                                    <option value ="42">MOSFET_42</option>
+
                                 </select>
                             </div>
                         </div>
@@ -213,7 +250,13 @@
                             <p><font color="#C4C7D1" size="6" face="Arial"> PARAMETERS </font></p>
                             <div class="select1">
                                 <select name="parametersSelect" id="parametersSelect">
-                                    <option value ="Drain_Source_Resistance_Time">Drain_Source_Resistance_Time</option>
+                                    <option value ="Default">Select Parameter...</option>
+{#                                    <option value ="rRes">Raw On-State Resistance</option>#}
+{#                                    <option value ="cRes">Cleaned On-State Resistance</option>#}
+{#                                    <option value ="fault">Fault Investigation</option>#}
+{#                                    <option value ="reg">RUL Analysis</option>#}
+{#                                    <option value ="temp">Temperature</option>#}
+{#                                    <option value ="gsVoltage">On-State Voltage</option>#}
                                 </select>
                             </div>
                         </div>
@@ -241,11 +284,14 @@
 {#                        <div id="onState"></div>#}
                         <p style="visibility: {{ loaded }}; color: cornsilk; font-size: xx-large">MOSFET {{ testNum }}</p>
 
-                        <div id="basic"></div>
-                        <div id="gsVoltage"></div>
-                        <div id="temp"></div>
                         <div id="regression"></div>
                         <div id="fault"></div>
+                        <div id="rawRes"></div>
+{#                        <br style="visibility: {{ loaded }}">#}
+                        <div id="cleanedRes"></div>
+                        <div id="gsVoltage"></div>
+                        <div id="temp"></div>
+
 
 {#                        <img style="visibility: {{loaded}}" src="{{ url_for('static', filename=path,_t=val1) }}" width = "800px" height="500px" />#}
                     </div>
@@ -297,20 +343,22 @@
 </script>
 
 <script>
-    var basicData = {{ basicData | safe }};
+    var rResData = {{ rResData | safe }};
+    var cResData = {{ cResData | safe }}
     var gsVoltageData = {{ gsVoltageData | safe }};
     var regData = {{ regData | safe }};
     var tempData = {{ tempData | safe }};
-    var faultData = {{ faultData | safe }}
+    var faultData = {{ faultData | safe }};
 
-    if (basicData){
-        parseJson('basic', basicData);
+    if (rResData) {
+        parseJson('rawRes', rResData)
+        parseJson('cleanedRes', cResData);
         parseJson('gsVoltage', gsVoltageData);
         parseJson('regression', regData);
         parseJson('temp', tempData);
         parseJson('fault', faultData);
-
     }
+
 </script>
 
 </body>

@@ -36,7 +36,9 @@ def getChart(filename):
 @app.route("/", methods=("GET", "POST"))
 def index():
     loaded = 'hidden'
-    basicData = None
+
+    rResData = None
+    cResData = None
     regData = None
     gsVoltageData = None
     faultData = None
@@ -44,22 +46,28 @@ def index():
     # testNum = None
     if request.method == "POST":
         testNum = request.form.get('testRunSelect')
+        # plotName = request.form.get('parametersSelect')
+        # print(plotName)
         if testNum == " ":
             error = 'You need to choose one data file!'
             flash(error)
         else:
             # Get data path
-            imgPath = './resultImg/' + 'mosfet' + str(testNum) + '.png'
-            basicPath = os.path.join(myPath, 'static', 'resultJSON', 'basic{}.json'.format(testNum))
+            # imgPath = './resultImg/' + 'mosfet' + str(testNum) + '.png'
+            rResPath = os.path.join(myPath, 'static', 'resultJSON', 'rRes{}.json'.format(testNum))
+            cResPath = os.path.join(myPath, 'static', 'resultJSON', 'cRes{}.json'.format(testNum))
             gsVoltagePath = os.path.join(myPath, 'static', 'resultJSON', 'gsVoltage{}.json'.format(testNum))
             regPath = os.path.join(myPath, 'static', 'resultJSON', 'regression{}.json'.format(testNum))
             tempPath = os.path.join(myPath, 'static', 'resultJSON', 'temp{}.json'.format(testNum))
             faultPath = os.path.join(myPath, 'static', 'resultJSON', 'fault{}.json'.format(testNum))
             # Load data if exist
-            if os.path.exists(basicPath):
-                f = open(basicPath)
-                basicData = json.load(f)
+            if os.path.exists(rResPath):
+                f = open(rResPath)
+                rResData = json.load(f)
                 loaded = 'visible'
+            if os.path.exists(cResPath):
+                f = open(cResPath)
+                cResData = json.load(f)
             if os.path.exists(gsVoltagePath):
                 f = open(gsVoltagePath)
                 gsVoltageData = json.load(f)
@@ -73,11 +81,11 @@ def index():
                 f = open(faultPath)
                 faultData = json.load(f)
 
-            return render_template('index.html', loaded = loaded, basicData = basicData,
-                                   gsVoltageData = gsVoltageData, regData = regData, path = imgPath,
+            return render_template('index.html', loaded = loaded, rResData = rResData, cResData=cResData,
+                                   gsVoltageData = gsVoltageData, regData = regData,
                                    tempData = tempData, faultData = faultData, testNum=testNum)
 
-    return render_template('index.html', loaded = loaded, basicData = basicData, gsVoltageData = gsVoltageData,
+    return render_template('index.html', loaded = loaded, rResData = rResData, cResData=cResData, gsVoltageData = gsVoltageData,
         tempData = tempData, regData = regData, faultData=faultData)
 
 ##################################################

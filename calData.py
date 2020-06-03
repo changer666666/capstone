@@ -173,14 +173,6 @@ trSteadySize = [[1, [1062, 2335]],
                 [40, [1940, 4485]],
                 [41, [64122]],
                 [42, [10388]]]
-startUp_out = [[1, 4], [2, 4], [3, 11], [4, 25], [5, 4], [6, 20], [7, 37], [8, 4], [9, 4], [10, 37], [11, 4], [12, 4],
-           [13, 4], [14, 4], [15, 8], [16, 7], [17, 7], [18, 30], [19, 7], [20, 73], [21, 4], [22, 4], [23, 4], [24, 4],
-           [25, 3], [26, 4], [27, 4], [28, 4], [29, 4], [30, 4], [31, 72], [32, 4], [33, 4], [34, 4], [35, 4], [36, 4],
-           [37, 4], [38, 4], [39, 0], [40, 2], [41, 9], [42, 11]]
-c = [[1, 0.3], [2, 1], [3, 1], [4, 1], [5, 0.1], [6, 0.2], [7, 0.05], [8, 0.14], [9, 0.14], [10, 0.08], [11, 0.3],
-     [12, 0.4], [13, 0.27], [14, 0.15], [15, 0.1], [16, 1], [17, 1], [18, 0.0075], [19, 0.005], [20, 0.05], [21, 0.15],
-     [22, 2], [23, 1.5], [24, 0.2], [25, 0.01], [26, 0.3], [27, 5], [28, 0.1], [29, 0.2], [30, 0.1], [31, 1],
-     [32, 0.1], [33, 0.25], [34, 13], [35, 4], [36, 3.6], [37, 7.5], [38, 3], [39, 0.5], [40, 2], [41, 14], [42, 0.75]]
 trTransSize = [[1, [916000, 1455000]],
                [2, [1755000, 151, 6430000]],
                [3, [22095000]],
@@ -242,12 +234,21 @@ def downsample_to_proportion(rows, proportion):
     return rows[::int(1 / proportion)]
 
 def getAllDF(mosfet):
-    global startUp_out
-    global c
+    startUp_out = [[1, 4], [2, 4], [3, 11], [4, 25], [5, 4], [6, 20], [7, 37], [8, 4], [9, 4], [10, 37], [11, 4], [12, 4],
+                   [13, 4], [14, 4], [15, 8], [16, 7], [17, 7], [18, 30], [19, 7], [20, 73], [21, 4], [22, 4], [23, 4], [24, 4],
+                   [25, 3], [26, 4], [27, 4], [28, 4], [29, 4], [30, 4], [31, 72], [32, 4], [33, 4], [34, 4], [35, 4], [36, 4],
+                   [37, 4], [38, 4], [39, 0], [40, 2], [41, 9], [42, 11]]
+    c_out = [[1, 0.3], [2, 1], [3, 1], [4, 1], [5, 0.1], [6, 0.2], [7, 0.05], [8, 0.14], [9, 0.14], [10, 0.08], [11, 0.3],
+         [12, 0.4], [13, 0.27], [14, 0.15], [15, 0.1], [16, 1], [17, 1], [18, 0.0075], [19, 0.005], [20, 0.05], [21, 0.15],
+         [22, 2], [23, 1.5], [24, 0.2], [25, 0.01], [26, 0.3], [27, 5], [28, 0.1], [29, 0.2], [30, 0.1], [31, 1],
+         [32, 0.1], [33, 0.25], [34, 13], [35, 4], [36, 3.6], [37, 7.5], [38, 3], [39, 0.5], [40, 2], [41, 14], [42, 0.75]]
     #####----- EXTRACTION & TRANSFORMATION VARIABLES-----#####
+    calibrator = c_out[int(mosfet - 1)][1]      # calibrates Rds values
+    print(type(c_out))
+    print(type(c_out[int(mosfet - 1)]))
     structSize = 0                          # size of a row in the embedded transient arrays
     startUp = startUp_out[int(mosfet - 1)][1]   # start up length
-    calibrator = c[int(mosfet - 1)][1]      # calibrates Rds values
+
     gsV = 10.0                              # gate signal voltage threshold for determining ON versus OFF state
     testSSsamples = 0                       # total number of steadyState samples in test
     testTsamples = 0                        # total number of transient samples in test
@@ -640,40 +641,19 @@ def getAllDF(mosfet):
     if (count == 0): rnnError = 1000
     else: rnnError = temp / count
 
-    #####----- DATAFRAMES -----#####
-    #rul and faults
-    #
-    # plt.subplot(211)
-    # plt.title("MOSFET " + str(mosfet) + " Health Monitoring")
-    # plt.plot(x, Yh, color='gainsboro')
-    # plt.plot(x, Yl, color='gainsboro')
-    # plt.fill_between(x, Yl, Yh, color='gainsboro')
-    # plt.plot(x, Ym, color='dimgray')
-
-    # print(len(cleanTime))
-    # print(len(validated))
-    # print(len(validatedGSoV))
     #####----- PLOTTING -----#####
-    if len(cleanTime) > 4000:
+    if len(cleanTime) > 3000:
         length = len(cleanTime)
-        cleanTime = downsample_to_proportion(cleanTime, 4000. / length)
-        validatedGSoV = downsample_to_proportion(validatedGSoV, 4000. / length)
-        validated = downsample_to_proportion(validated, 4000. / length)
-        cleanShifted = downsample_to_proportion(cleanShifted, 4000. / length)
-    rawData_df = pd.DataFrame({'time': cleanTime, 'Raw Voltage': validated})   # Data Based on Gate-to-Source Voltage
-    # print(len(validated))
-    dsRes_df = pd.DataFrame({'time': cleanTime, 'Cleaned Data': cleanShifted})
-    # print(len(cleanShifted))
+        cleanTime = downsample_to_proportion(cleanTime, 3000. / length)
+        validatedGSoV = downsample_to_proportion(validatedGSoV, 3000. / length)
+        validated = downsample_to_proportion(validated, 3000. / length)
+
+    dsRes_df = pd.DataFrame({'time': cleanTime, 'Resistance': validated})
 
     if len(masterTime) > 5000:
         masterTime = downsample_to_proportion(masterTime, 5000. / len(masterTime))
         masterData = downsample_to_proportion(masterData, 5000. / len(masterData))
-    dsResSampled_df = pd.DataFrame({'time': masterTime, 'Sampled Data': masterData})
-    # print(len(masterData))
-
-    # print(rawData_df.shape[0])
-    # print(dsRes_df.shape[0])
-    # print(dsResSampled_df.shape[0])
+    cdsRes_df = pd.DataFrame({'time': masterTime, 'Resistance': masterData})
 
     gsVoltage = pd.DataFrame({'time': cleanTime, 'Gate-to-Source Voltage Data': validatedGSoV}) # On-State Gate-to-Source Voltage
 
@@ -685,28 +665,24 @@ def getAllDF(mosfet):
     temp = pd.DataFrame({'time': tempTime, 'raw_Case_Temperature': rawCaseTemp}) # Flange temp and package temp
     packTemp = pd.DataFrame({'time': tempTime, 'raw_Package_Temperature': rawPackageTemp})
 
+
     br_df = pd.DataFrame({'time': brTime, 'Basic_Regression': brRegression})      # Regression
     lir_df = pd.DataFrame({'time': linTime, 'Linear_Regression': linRegression})
     expr_df = pd.DataFrame({'time': expTime, 'Exponentional_Regression': expRegression})
     rnn_df = pd.DataFrame({'time': rnnTime, 'Rnn': rnn})
+    trendLine_df = pd.DataFrame({'time': x, 'Base': Ym})
 
-    if len(ifTime) > 4000:
-        print(len(ifTime))
-        ifTime = downsample_to_proportion(ifTime, 4000. / len(ifTime))
-        print(len(ifTime))
-        print(len(iFault))
-        iFault = downsample_to_proportion(iFault, 4000. / len(iFault))
-        print(len(iFault))
 
-    if (len(sfTime) > 4000):
-        print(len(sfTime))
-        sfTime = downsample_to_proportion(sfTime, 4000. / len(sfTime))
-        print(len(sfTime))
-        print(len(sFault))
-        sFault = downsample_to_proportion(sFault, 4000. / len(sFault))
-        print(len(sFault))
+    if len(ifTime) > 3000:
+        ifTime = downsample_to_proportion(ifTime, 3000. / len(ifTime))
+        iFault = downsample_to_proportion(iFault, 3000. / len(iFault))
+
+    if (len(sfTime) > 3000):
+        sfTime = downsample_to_proportion(sfTime, 3000. / len(sfTime))
+        sFault = downsample_to_proportion(sFault, 3000. / len(sFault))
     inciFault = pd.DataFrame({'ifTime': ifTime, 'iFault': iFault})
     stndFault = pd.DataFrame({'sfTime': sfTime, 'sFault': sFault})
 
-    return rawData_df, dsRes_df, dsResSampled_df, gsVoltage, temp, packTemp, br_df, lir_df, expr_df, rnn_df, inciFault, stndFault
+    return dsRes_df, cdsRes_df, gsVoltage, temp, packTemp, \
+           br_df, lir_df, expr_df, rnn_df, trendLine_df, inciFault, stndFault
 #

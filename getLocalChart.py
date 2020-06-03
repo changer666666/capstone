@@ -9,32 +9,27 @@ import calData
 myPath = os.path.abspath(os.path.dirname(__file__))
 
 def generateJSON(testNum):
-    rawData_df, dsRes_df, dsResSampled_df, gsVoltage, temp, packTemp, \
-    br_df, lir_df, expr_df, rnn_df, inciFault, stndFault = calData.getAllDF(testNum)
+    dsRes_df, cdsRes_df, gsVoltage, temp, packTemp, br_df, lir_df, expr_df, rnn_df, trendLine_df, inciFault, stndFault = calData.getAllDF(testNum)
 
-################################### Basic Information
-    rawDataChart = alt.Chart(rawData_df, width=400, height=200, title='Data Based on Gate-to-Source Voltage').mark_line(point=True).encode(
+################################### Raw ds Resistence data
+    dsResChart = alt.Chart(dsRes_df, width=400, height=200, title='Raw ON-State Drain-to-Source Resistance').mark_line(point=True).encode(
         alt.X('time:Q', axis=alt.Axis(title='Time(minutes)', labelColor='white', titleColor='white')),
-        alt.Y('Raw Voltage:Q', axis=alt.Axis(title='Voltage(V)', labelColor='white', titleColor='white')),
-        tooltip=['time', 'Raw Voltage'],
+        alt.Y('Resistance:Q', axis=alt.Axis(title='Resistance(Ω)', labelColor='white', titleColor='white')),
+        tooltip=['time', 'Resistance'],
         color=alt.value("#A5FC1F")
     ).interactive()
 
-    dsResChart = alt.Chart(dsRes_df, width=400, height=200).mark_line(point=True).encode(
-        alt.X('time:Q', axis=alt.Axis(title='Time(minutes)', labelColor='white', titleColor='white')),
-        alt.Y('Cleaned Data:Q'),
-        tooltip=['time', 'Cleaned Data'],
-        color=alt.value("#EECACA")
-    ).interactive()
+    dsResJSON = dsResChart.configure_title(color='#DCDCDC').to_json()
 
-    dsResSampledChart = alt.Chart(dsResSampled_df, width=400, height=200).mark_line(point=True).encode(
+################################### Cleaned ds Resistence data
+    cdsResChart = alt.Chart(cdsRes_df, width=400, height=200, title='Cleaned ON-State Drain-to-Source Resistance').mark_line(point=True).encode(
         alt.X('time:Q', axis=alt.Axis(title='Time(minutes)', labelColor='white', titleColor='white')),
-        alt.Y('Sampled Data:Q'),
-        tooltip=['time', 'Sampled Data'],
+        alt.Y('Resistance:Q', axis=alt.Axis(title='Resistance(Ω)', labelColor='white', titleColor='white')),
+        tooltip=['time', 'Resistance'],
         color=alt.value("#F43A3A")
     ).interactive()
 
-    basicDataJSON = (rawDataChart + dsResChart + dsResSampledChart).configure_title(color='#DCDCDC').to_json()
+    cdsResJSON = cdsResChart.configure_title(color='#DCDCDC').to_json()
 
 ################################### gsVoltage
     gsVoltageChart = alt.Chart(gsVoltage, width=400, height=200, title='On-State Gate-to-Source Voltage').mark_line(point=True).encode(
@@ -45,7 +40,7 @@ def generateJSON(testNum):
     ).interactive()
     gsVoltageJson = gsVoltageChart.configure_title(color='#DCDCDC').to_json()
 
-################################### Temprature
+    ################################### Temprature
 
     tempChart = alt.Chart(temp, width=400, height=200, title='Temperature').mark_line(point=True).encode(
         alt.X('time:Q', axis=alt.Axis(title='Time(minutes)', labelColor='white', titleColor='white')),
@@ -63,36 +58,43 @@ def generateJSON(testNum):
 
     tempJSON = (tempChart + packTempChart).configure_title(color='#DCDCDC').to_json()
 
-################################### Regression
-    brChart = alt.Chart(br_df, width=400, height=200, title='RUL and Regression').mark_line(point=True).encode(
+    ################################### Regression
+    brChart = alt.Chart(br_df, width=400, height=200, title='RUL Analysis').mark_line(point=True).encode(
         alt.X('time:Q', axis=alt.Axis(title='Time(Minutes)', labelColor='white', titleColor='white')),
         alt.Y('Basic_Regression:Q', axis=alt.Axis(title='RUL(Minutes)', labelColor='white', titleColor='white')),
         tooltip=['time', 'Basic_Regression'],
         color=alt.value("red")
-    ).interactive()
+    )
 
     lirChart = alt.Chart(lir_df, width=400, height=200).mark_line(point=True).encode(
         alt.X('time:Q', axis=alt.Axis(title='Time(Minutes)', labelColor='white', titleColor='white')),
         alt.Y('Linear_Regression:Q', axis=alt.Axis(title='RUL(Minutes)', labelColor='white', titleColor='white')),
         tooltip=['time', 'Linear_Regression'],
         color=alt.value("blue")
-    ).interactive()
+    )
 
     exprChart = alt.Chart(expr_df, width=400, height=200).mark_line(point=True).encode(
         alt.X('time:Q', axis=alt.Axis(title='Time(Minutes)', labelColor='white', titleColor='white')),
         alt.Y('Exponentional_Regression:Q', axis=alt.Axis(title='RUL(Minutes)', labelColor='white', titleColor='white')),
         tooltip=['time', 'Exponentional_Regression'],
-        color=alt.value("white")
-    ).interactive()
+        color=alt.value("green")
+    )
 
     rnnChart = alt.Chart(rnn_df, width=400, height=200).mark_line(point=True).encode(
         alt.X('time:Q', axis=alt.Axis(title='Time(Minutes)', labelColor='white', titleColor='white')),
         alt.Y('Rnn:Q', axis=alt.Axis(title='RUL(Minutes)', labelColor='white', titleColor='white')),
         tooltip=['time', 'Rnn'],
         color=alt.value("yellow")
-    ).interactive()
+    )
 
-    regJson = (brChart + lirChart + exprChart + rnnChart).configure_title(color='#DCDCDC').to_json()
+    baseChart = alt.Chart(trendLine_df, width=400, height=200).mark_line(point=True).encode(
+        alt.X('time:Q', axis=alt.Axis(title='Time(Minutes)', labelColor='white', titleColor='white')),
+        alt.Y('Base:Q', axis=alt.Axis(title='RUL(Minutes)', labelColor='white', titleColor='white')),
+        tooltip=['time', 'Base'],
+        color=alt.value("white")
+    ).properties(width=10)
+
+    regJson = (brChart + lirChart + exprChart + rnnChart + baseChart).configure_title(color='#DCDCDC').interactive().to_json()
 
     ################################### Fault Investigation
 
@@ -115,8 +117,12 @@ def generateJSON(testNum):
     ################################### Write Files
 
     path = os.path.join(myPath, 'static', 'resultJSON')
-    with open(os.path.join(path,'basic{}.json'.format(testNum)), 'w') as f:
-        json.dump(basicDataJSON, f)
+
+    with open(os.path.join(path,'rRes{}.json'.format(testNum)), 'w') as f:
+        json.dump(dsResJSON, f)
+
+    with open(os.path.join(path,'cRes{}.json'.format(testNum)), 'w') as f:
+        json.dump(cdsResJSON, f)
 
     with open(os.path.join(path,'gsVoltage{}.json'.format(testNum)), 'w') as f:
         json.dump(gsVoltageJson, f)
@@ -130,7 +136,13 @@ def generateJSON(testNum):
     with open(os.path.join(path,'fault{}.json'.format(testNum)), 'w') as f:
         json.dump(faultJson, f)
 
-generateJSON(10)
+
+
+
+
+
+
+
 
 
 

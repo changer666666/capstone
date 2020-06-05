@@ -1,16 +1,15 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 import altair as alt
 import pandas as pd
-import calculate_data
+# import calculate_data
 import os
 import json
 import boto3
 
 myPath = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
+
 app.secret_key = 'testkey'
-
-
 def read_file_from_cloud(bucket, filename):
     s3 = boto3.resource('s3',
                         aws_access_key_id='AKIAI3UJLE5E54WROCRA',
@@ -20,17 +19,17 @@ def read_file_from_cloud(bucket, filename):
     json_content = json.loads(file_content)
     return json_content
 
-def getChart(filename):
-    onStateRes = calculate_data.calculate_data(filename)
-    chart = alt.Chart(onStateRes, width=400, height=200).mark_line(point=True).encode(
-        x='Time:T',
-        y='ONStateRES:Q',
-        tooltip=['Time', 'ONStateRES']
-    ).configure_axis(
-        labelColor='gray',
-        titleColor='gray'
-    ).interactive()
-    return chart
+# def getChart(filename):
+#     onStateRes = calculate_data.calculate_data(filename)
+#     chart = alt.Chart(onStateRes, width=400, height=200).mark_line(point=True).encode(
+#         x='Time:T',
+#         y='ONStateRES:Q',
+#         tooltip=['Time', 'ONStateRES']
+#     ).configure_axis(
+#         labelColor='gray',
+#         titleColor='gray'
+#     ).interactive()
+#     return chart
 
 # render index.html as home page
 @app.route("/", methods=("GET", "POST"))

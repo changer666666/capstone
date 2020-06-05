@@ -307,7 +307,7 @@ def getAllDF(mosfet):
                 if (transient[i]['timeDomain']['gateSignalVoltage'][j] > gsV): validity.append(1) # ON-State
                 else: validity.append(0) # OFF-State
 
-            # temperature data
+        # temperature data
         for i in range(len(steadyState)):
             rawCaseTemp.append(steadyState[i]['timeDomain']['flangeTemperature'])
             rawPackageTemp.append(steadyState[i]['timeDomain']['packageTemperature'])
